@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 extension PinsMapController {
     @objc func handleEditButton(_ sender: UIButton){
@@ -17,13 +18,41 @@ extension PinsMapController {
     
     @objc func handleDeleteAllButton(_ sender: UIButton){
         navigationController?.pushViewController(MapCollectionViewsController(), animated: true)
+        
+//        mapView.removeAnnotations(mapView.annotations)
+//        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+//        let request = NSBatchDeleteRequest(fetchRequest: fetch)
+//        do {
+//            try dataController.viewContext.execute(request)
+//            try dataController.viewContext.save()
+//        } catch {
+//            print ("There was an error")
+//        }
     }
+    
+ 
     
     @objc func handleLongPress(_ sender: UILongPressGestureRecognizer){
-        print("LONG PRESS")
+        if sender.state != .ended {
+            let touchLocation = sender.location(in: self.mapView)
+            let locationCoordinate = self.mapView.convert(touchLocation,toCoordinateFrom: self.mapView)
+            let newPin = addNewPin(locationCoordinate)
+            //            _ = FlickrClient.getAllPhotoURLs(currentPin: newPin, fetchCount: fetchCount, completion: handleGetAllPhotoURLs(pin:urls:error:))
+            
+            //            _ = FlickrClient.getAllPhotoURLsNEXT(currentPin: newPin, samePage: false, fetchCount: fetchCount, completion: handleGetAllPhotoURLs(pin:urls:error:))
+            //            _ = FlickrClient.getAllPhotoURLsNEXT(currentPin: newPin, samePage: true, fetchCount: fetchCount, completion: handleGetAllPhotoURLsNEXT(pin:urls:error:))
+            return
+        }
     }
-    
-    
 
+    func addNewPin(_ locationCoordinate: CLLocationCoordinate2D)->Pin {
+        let pinToAdd = Pin(context: dataController.viewContext)
+        pinToAdd.latitude = locationCoordinate.latitude
+        pinToAdd.longitude = locationCoordinate.longitude
+        pinToAdd.pageNumber = 1
+        pinToAdd.photoCount = 0
+        try? dataController.viewContext.save()
+        return pinToAdd
+    }
     
 }

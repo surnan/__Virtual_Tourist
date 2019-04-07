@@ -17,22 +17,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        
-        
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        print(urls[urls.count-1] as URL)
-        
+        print(urls[urls.count-1] as URL)    //prints app directory path
         
         dataController.load()
         
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().barTintColor = UIColor.ghostWhite
+        let _PinsMapController = PinsMapController()
+        _PinsMapController.dataController = dataController
+        let _navigationWindow = UINavigationController(rootViewController: _PinsMapController)
         
-        let _navigationWindow = UINavigationController(rootViewController: PinsMapController())
         window = UIWindow()
         window?.makeKeyAndVisible()
         window?.rootViewController = _navigationWindow
-        
         
         return true
     }

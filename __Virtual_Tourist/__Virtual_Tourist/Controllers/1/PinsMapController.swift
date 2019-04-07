@@ -46,6 +46,7 @@ class PinsMapController: UIViewController, MKMapViewDelegate {
 
     
     var tapDeletesPin = false   //determines if deletionLabel is shown in UI
+    var dataController: DataController! //injected from AppDelegate
     var mapView = MKMapView()
     
     
