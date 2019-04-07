@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 extension PinsMapController {
     @objc func handleEditButton(_ sender: UIButton){
@@ -19,25 +20,29 @@ extension PinsMapController {
     @objc func handleDeleteAllButton(_ sender: UIButton){
         navigationController?.pushViewController(MapCollectionViewsController(), animated: true)
         
-//        mapView.removeAnnotations(mapView.annotations)
-//        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
-//        let request = NSBatchDeleteRequest(fetchRequest: fetch)
-//        do {
-//            try dataController.viewContext.execute(request)
-//            try dataController.viewContext.save()
-//        } catch {
-//            print ("There was an error")
-//        }
+        mapView.removeAnnotations(mapView.annotations)
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+        let request = NSBatchDeleteRequest(fetchRequest: fetch)
+        do {
+            try dataController.viewContext.execute(request)
+            try dataController.viewContext.save()
+        } catch {
+            print ("There was an error")
+        }
     }
     
  
     
     @objc func handleLongPress(_ sender: UILongPressGestureRecognizer){
+        
+        print("handle -1")
         if sender.state != .ended {
+            print("handle -2")
             let touchLocation = sender.location(in: self.mapView)
             let locationCoordinate = self.mapView.convert(touchLocation,toCoordinateFrom: self.mapView)
             
             dataController.viewContext.perform {
+                print("handle -3")
                 let pinToAdd = Pin(context: self.dataController.viewContext)
                 pinToAdd.latitude = locationCoordinate.latitude
                 pinToAdd.longitude = locationCoordinate.longitude
