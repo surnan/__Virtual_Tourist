@@ -8,8 +8,9 @@
 
 import UIKit
 import MapKit
+import CoreData
 
-class PinsMapController: UIViewController, MKMapViewDelegate {
+class PinsMapController: UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate {
     
     //MARK:- UI Constraints - CONSTANTS
     let bottomUILabelHeight: CGFloat = 70
@@ -46,11 +47,10 @@ class PinsMapController: UIViewController, MKMapViewDelegate {
 
     
     var tapDeletesPin = false   //determines if deletionLabel is shown in UI
-    var dataController: DataController! //injected from AppDelegate
     var mapView = MKMapView()
     
-    
-    
+    var myFetchController: NSFetchedResultsController<Pin>!
+    var dataController: DataController! //injected from AppDelegate
     
     var saveObserverToken: Any?
 }

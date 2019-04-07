@@ -36,23 +36,15 @@ extension PinsMapController {
         if sender.state != .ended {
             let touchLocation = sender.location(in: self.mapView)
             let locationCoordinate = self.mapView.convert(touchLocation,toCoordinateFrom: self.mapView)
-            let newPin = addNewPin(locationCoordinate)
-            //            _ = FlickrClient.getAllPhotoURLs(currentPin: newPin, fetchCount: fetchCount, completion: handleGetAllPhotoURLs(pin:urls:error:))
             
-            //            _ = FlickrClient.getAllPhotoURLsNEXT(currentPin: newPin, samePage: false, fetchCount: fetchCount, completion: handleGetAllPhotoURLs(pin:urls:error:))
-            //            _ = FlickrClient.getAllPhotoURLsNEXT(currentPin: newPin, samePage: true, fetchCount: fetchCount, completion: handleGetAllPhotoURLsNEXT(pin:urls:error:))
-            return
+            dataController.viewContext.perform {
+                let pinToAdd = Pin(context: self.dataController.viewContext)
+                pinToAdd.latitude = locationCoordinate.latitude
+                pinToAdd.longitude = locationCoordinate.longitude
+                pinToAdd.pageNumber = 1
+                pinToAdd.photoCount = 0
+                try? self.dataController.viewContext.save()
+            }
         }
     }
-
-    func addNewPin(_ locationCoordinate: CLLocationCoordinate2D)->Pin {
-        let pinToAdd = Pin(context: dataController.viewContext)
-        pinToAdd.latitude = locationCoordinate.latitude
-        pinToAdd.longitude = locationCoordinate.longitude
-        pinToAdd.pageNumber = 1
-        pinToAdd.photoCount = 0
-        try? dataController.viewContext.save()
-        return pinToAdd
-    }
-    
 }

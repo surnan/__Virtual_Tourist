@@ -81,8 +81,8 @@ extension PinsMapController {
         mapView.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         setupUI()
         
-//        setupFetchController()
-//        myFetchController.delegate = self
+        setupFetchController()
+        myFetchController.delegate = self
 //        getAllPins().forEach{
 //            placeAnnotation(pin: $0)
 //        }
