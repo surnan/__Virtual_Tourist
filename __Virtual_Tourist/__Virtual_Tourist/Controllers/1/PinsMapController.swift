@@ -7,53 +7,50 @@
 //
 
 import UIKit
+import MapKit
 
-class PinsMapController: UIViewController {
+class PinsMapController: UIViewController, MKMapViewDelegate {
     
     //MARK:- UI Constraints - CONSTANTS
     let bottomUILabelHeight: CGFloat = 70
     let defaultTitleFontSize: CGFloat = 22
     let defaultFontSize: CGFloat = 18
     
+    //MARK:- UI Constraints - DYNAMIC
+    var anchorMapTop_SafeAreaTop: NSLayoutConstraint?
+    var anchorMapTop_ShiftMapToShowDeletionLabel: NSLayoutConstraint?
+    var anchorMapBottom_ViewBottom: NSLayoutConstraint?
+    var anchorMapBottom_ShiftMapToShowDeletionLabel: NSLayoutConstraint?
     
-    func setupNavigationBar(){
-        navigationItem.title = "Virtual Tourist"
-        
-        
-        let editDoneButton: UIButton = {
-            let button = UIButton()
-            button.setTitle("Edit", for: .normal)
-            button.setTitleColor(UIColor.blue, for: .normal)
-            button.setAttributedTitle(NSAttributedString(string: "Done", attributes: [NSAttributedString.Key.font :  UIFont.systemFont(ofSize: defaultFontSize)]), for: .selected)
-            button.setTitle("Done", for: .selected)
-            button.addTarget(self, action: #selector(handleEditButton), for: .touchUpInside)
-            button.isSelected = false
-            button.translatesAutoresizingMaskIntoConstraints = false
-            return button
-        }()
-        
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editDoneButton)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Delete ALL", style: .done, target: self, action: #selector(handleDeleteAllButton))
-        
-    }
+    //MARK:- Gestures
+    lazy var myLongPressGesture: UILongPressGestureRecognizer = {
+        var longGesture = UILongPressGestureRecognizer()
+        longGesture.minimumPressDuration = 1
+        longGesture.addTarget(self, action: #selector(handleLongPress(_:)))
+        return longGesture
+    }()
     
+    //MARK:- UI
+    lazy var deletionLabel: UILabel = {
+        var label = UILabel()
+        label.backgroundColor = UIColor.red
+        let attributes: [NSAttributedString.Key:Any] = [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: defaultTitleFontSize),
+            NSAttributedString.Key.foregroundColor: UIColor.white]
+        label.attributedText = NSAttributedString(string: "Tap Pins to Delete", attributes: attributes)
+        label.textAlignment = .center
+        label.heightAnchor.constraint(equalToConstant: bottomUILabelHeight).isActive = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupNavigationBar()
-        view.backgroundColor = UIColor.blue
-    }
-    
-    
-    @objc func handleEditButton(_ sender: UIButton){
-        navigationController?.pushViewController(MapCollectionViewsController(), animated: true)
-    }
-    
-    @objc func handleDeleteAllButton(_ sender: UIButton){
-        navigationController?.pushViewController(MapCollectionViewsController(), animated: true)
-    }
+    var tapDeletesPin = false   //determines if deletionLabel is shown in UI
+    var mapView = MKMapView()
     
     
+    
+    
+    var saveObserverToken: Any?
 }
 
