@@ -83,9 +83,20 @@ extension PinsMapController {
         
         setupFetchController()
         myFetchController.delegate = self
-//        getAllPins().forEach{
-//            placeAnnotation(pin: $0)
-//        }
+        getAllPins().forEach{
+            placeAnnotation(pin: $0)
+        }
         
     }
+    
+    func getAllPins()->[Pin]{
+        return myFetchController.fetchedObjects ?? []
+    }
+    
+    func placeAnnotation(pin: Pin?) {
+        guard let lat = pin?.latitude, let lon = pin?.longitude else {return}
+        let myNewAnnotation = CustomAnnotation(lat: lat, lon: lon)
+        mapView.addAnnotation(myNewAnnotation)
+    }
+    
 }

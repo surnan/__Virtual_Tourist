@@ -34,7 +34,6 @@ extension PinsMapController {
  
     
     @objc func handleLongPress(_ sender: UILongPressGestureRecognizer){
-        
         print("handle -1")
         if sender.state != .ended {
             print("handle -2")
