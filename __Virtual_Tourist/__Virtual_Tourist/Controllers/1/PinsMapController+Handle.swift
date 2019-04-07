@@ -18,16 +18,14 @@ extension PinsMapController {
     }
     
     @objc func handleDeleteAllButton(_ sender: UIButton){
-        navigationController?.pushViewController(MapCollectionViewsController(), animated: true)
-        
         mapView.removeAnnotations(mapView.annotations)
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
         let request = NSBatchDeleteRequest(fetchRequest: fetch)
         do {
-            try dataController.viewContext.execute(request)
-            try dataController.viewContext.save()
+            try dataController.backGroundContext.execute(request)
+            try dataController.backGroundContext.save()
         } catch {
-            print ("There was an error")
+            print ("There was an error when trying to delete all Pins on Map")
         }
     }
     

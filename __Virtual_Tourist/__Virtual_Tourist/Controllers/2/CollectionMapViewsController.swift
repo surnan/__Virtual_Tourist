@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MapCollectionViewsController: UIViewController {
+class CollectionMapViewsController: UIViewController {
     override func viewDidLoad() {
             view.backgroundColor = UIColor.yellow
     }

@@ -10,9 +10,23 @@ import Foundation
 import MapKit
 
 extension PinsMapController {
-//    func placeAnnotation(pin: Pin?) {
-//        guard let lat = pin?.latitude, let lon = pin?.longitude else {return}
-//        let myNewAnnotation = CustomAnnotation(lat: lat, lon: lon)
-//        mapView.addAnnotation(myNewAnnotation)
+//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+//        guard let selectedAnnotation = view.annotation as? CustomAnnotation, let desiredPin = getCorrespondingPin(annotation: selectedAnnotation) else {return}
+//        //1
+//        if tapDeletesPin {
+//            dataController.viewContext.delete(desiredPin)
+//            try? dataController.viewContext.save()
+//            return
+//        }
+//        //2
+//        PushToCollectionViewController(apin: desiredPin)
 //    }
-}
+    
+    func PushToCollectionViewController(apin: Pin){
+        let nextController = CollectionMapViewsController()
+//        newController.dataController = self.dataController
+//        newController.pin = apin
+//        self.delegate = newController
+        print("lat/lon ---> \(apin.coordinate)")
+        navigationController?.pushViewController(nextController, animated: true)
+    }}
