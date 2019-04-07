@@ -9,8 +9,14 @@
 import UIKit
 
 class CollectionMapViewsController: UIViewController {
+    
+    var currentPin: Pin!   //injected from MapController
+    var dataController: DataController! //injected from MapController
+    
+    
     override func viewDidLoad() {
             view.backgroundColor = UIColor.yellow
+        print("CollectionView ... Pin \(currentPin.coordinate)")
     }
 }
 

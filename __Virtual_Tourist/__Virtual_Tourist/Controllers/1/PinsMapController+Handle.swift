@@ -12,7 +12,6 @@ import CoreData
 
 extension PinsMapController {
     @objc func handleEditButton(_ sender: UIButton){
-//        navigationController?.pushViewController(MapCollectionViewsController(), animated: true)
         sender.isSelected = !sender.isSelected
         toggleBottomUILabel(show: sender.isSelected)
     }
