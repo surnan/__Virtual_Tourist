@@ -46,11 +46,12 @@ class PinsMapController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     }()
 
     
-    var tapDeletesPin = false   //determines if deletionLabel is shown in UI
+    var tapDeletesPin = false               //determines if deletionLabel is shown in UI
     var mapView = MKMapView()
     
     var myFetchController: NSFetchedResultsController<Pin>!
-    var dataController: DataController! //injected from AppDelegate
+    var dataController: DataController!     //injected from AppDelegate
+    var previousPinID: NSManagedObjectID?   //so we can retreive object prior to updating coordinates
     
     var saveObserverToken: Any?
 }

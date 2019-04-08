@@ -23,14 +23,15 @@ extension Pin: MKAnnotation {
 //    }
 //
 //    //var backGroundContext: NSManagedObjectContext!
-//    public func movePin(coordinate: CLLocationCoordinate2D, viewContext: NSManagedObjectContext){
-//        self.latitude = coordinate.latitude
-//        self.longitude = coordinate.longitude
-//        self.pageNumber = 1
-//        self.photoCount = 0
-//        self.urlCount = 0
-//        try? viewContext.save()
-//    }
+    public func movePin(coordinate: CLLocationCoordinate2D, viewContext: NSManagedObjectContext){
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
+        self.pageNumber = 1
+        self.photoCount = 0
+        self.urlCount = 0
+        self.downloadState = -1
+        try? viewContext.save()
+    }
 
     //Executes at Pin Creation
     public override func awakeFromInsert() {

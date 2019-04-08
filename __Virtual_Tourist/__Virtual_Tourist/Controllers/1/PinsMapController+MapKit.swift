@@ -11,6 +11,44 @@ import MapKit
 import CoreData
 
 extension PinsMapController {
+    
+    func deleteAllPhotosOnPin(_ pinToChange: Pin) {
+        let fetch111 = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
+        fetch111.predicate = NSPredicate(format: "pin = %@", argumentArray: [pinToChange])
+        let request = NSBatchDeleteRequest(fetchRequest: fetch111)
+        _ = try? self.dataController.backGroundContext.execute(request)
+        try? self.dataController.viewContext.save()
+    }
+
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
+        guard let currentAnnotation = view.annotation else {return}
+        switch (newState) {
+        case .starting:
+            view.dragState = .dragging
+            if let view = view as? MKPinAnnotationView {
+                view.pinTintColor = UIColor.green
+            }
+            previousPinID = getCorrespondingPin(annotation: currentAnnotation)?.objectID
+        case .ending:
+            view.dragState = .none
+            if let view = view as? MKPinAnnotationView {
+                view.pinTintColor = UIColor.black
+            }
+            
+            guard let _previousPinID = previousPinID, let pinToChange = dataController.viewContext.object(with: _previousPinID) as? Pin else {return}
+            deleteAllPhotosOnPin(pinToChange)
+            pinToChange.movePin(coordinate: currentAnnotation.coordinate, viewContext: dataController.viewContext)
+            previousPinID = nil
+        case .canceling:
+            if let view = view as? MKPinAnnotationView {view.pinTintColor = UIColor.black}
+        default: break
+        }
+    }
+    
+    
+
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let selectedAnnotation = view.annotation as? CustomAnnotation, let desiredPin = getCorrespondingPin(annotation: selectedAnnotation) else {return}
 
