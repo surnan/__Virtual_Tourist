@@ -36,16 +36,54 @@ extension PinsMapController {
             print("handle -2")
             let touchLocation = sender.location(in: self.mapView)
             let locationCoordinate = self.mapView.convert(touchLocation,toCoordinateFrom: self.mapView)
+
+            let pinToAdd = Pin(context: self.dataController.viewContext)
             
             dataController.viewContext.perform {
                 print("handle -3")
-                let pinToAdd = Pin(context: self.dataController.viewContext)
+                // let pinToAdd = Pin(context: self.dataController.viewContext)
                 pinToAdd.latitude = locationCoordinate.latitude
                 pinToAdd.longitude = locationCoordinate.longitude
                 pinToAdd.pageNumber = 1
                 pinToAdd.photoCount = 0
                 try? self.dataController.viewContext.save()
             }
+            
+            
+//            _ = FlickrClient.getAllPhotoURLs(currentPin: pinToAdd, fetchCount: fetchCount, completion: handleGetAllPhotoURLs(pin:urls:error:))
+            
         }
     }
+    
+    
+    func handleGetAllPhotoURLs(pin: Pin, urls: [URL], error: Error?){
+        let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
+        
+        if let error = error {
+            print("func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
+            return
+        }
+        
+        
+        let pinId = pin.objectID
+        
+        
+        backgroundContext.perform {
+            let backgroundPin = backgroundContext.object(with: pinId) as! Pin
+            backgroundPin.urlCount = Int32(urls.count)
+            try? backgroundContext.save()
+        }
+        
+        for (index, currentURL) in urls.enumerated() {
+            URLSession.shared.dataTask(with: currentURL, completionHandler: { (imageData, response, error) in
+                guard let imageData = imageData else {return}
+                connectPhotoAndPin(dataController: self.dataController, currentPin:  pin , data: imageData, urlString: currentURL.absoluteString, index: index)
+            }).resume()
+        }
+    }
+    
+    
+    
+    
+    
 }

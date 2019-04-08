@@ -40,28 +40,29 @@ extension Pin: MKAnnotation {
         photoCount = 0
         urlCount = 0
     }
+}
 
-//extension Photo {
-//    public override func awakeFromInsert() {
-//        super.awakeFromInsert()
-//        isLoaded = false
-//    }
-//}
-//
-//func connectPhotoAndPin(dataController: DataController, currentPin: Pin, data: Data, urlString: String, index: Int){
-//    let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
-//    let currentPinID = currentPin.objectID
-//    
-//    backgroundContext.perform {
-//        let backgroundPin = backgroundContext.object(with: currentPinID) as! Pin
-//        backgroundPin.photoCount = backgroundPin.photoCount + 1
-//        let tempPhoto = Photo(context: backgroundContext)
-//        tempPhoto.imageData = data
-//        tempPhoto.urlString = urlString
-//        tempPhoto.index = Int32(index) //Random value for init
-//        tempPhoto.pin = backgroundPin
-//        tempPhoto.isLoaded = true
-//        //        let testImage = UIImage(data: tempPhoto.imageData!)
-//        try? backgroundContext.save()
-//    }
+extension Photo {
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        isLoaded = false
+    }
+}
+
+func connectPhotoAndPin(dataController: DataController, currentPin: Pin, data: Data, urlString: String, index: Int){
+    let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
+    let currentPinID = currentPin.objectID
+    
+    backgroundContext.perform {
+        let backgroundPin = backgroundContext.object(with: currentPinID) as! Pin
+        backgroundPin.photoCount = backgroundPin.photoCount + 1
+        let tempPhoto = Photo(context: backgroundContext)
+        tempPhoto.imageData = data
+        tempPhoto.urlString = urlString
+        tempPhoto.index = Int32(index) //Random value for init
+        tempPhoto.pin = backgroundPin
+        tempPhoto.isLoaded = true
+        //        let testImage = UIImage(data: tempPhoto.imageData!)
+        try? backgroundContext.save()
+    }
 }
