@@ -27,6 +27,7 @@ xcuserdata/
 *.ipa
 *.dSYM.zip
 *.dSYM
+UNSYNC.swift
 
 ## Playgrounds
 timeline.xctimeline
