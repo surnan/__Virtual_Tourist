@@ -9,7 +9,7 @@
 import UIKit
 
 
-var fetchCount = 6
+var fetchCount = 6 //Delete CoreData if change
 
 
 @UIApplicationMain

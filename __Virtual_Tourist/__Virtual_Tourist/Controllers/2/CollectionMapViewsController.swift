@@ -7,15 +7,25 @@
 //
 
 import UIKit
+import MapKit
+import CoreData
 
-class CollectionMapViewsController: UIViewController {
+
+
+protocol CollectionMapViewControllerDelegate {
+    func refresh()
+}
+
+
+class CollectionMapViewsController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,NSFetchedResultsControllerDelegate, CollectionMapViewControllerDelegate, MKMapViewDelegate  {
+
     
     var currentPin: Pin!   //injected from MapController
     var dataController: DataController! //injected from MapController
     
     
     override func viewDidLoad() {
-            view.backgroundColor = UIColor.yellow
+        view.backgroundColor = UIColor.yellow
         print("CollectionView ... Pin \(currentPin.coordinate)")
     }
 }
