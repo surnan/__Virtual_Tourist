@@ -37,21 +37,18 @@ extension PinsMapController {
             let touchLocation = sender.location(in: self.mapView)
             let locationCoordinate = self.mapView.convert(touchLocation,toCoordinateFrom: self.mapView)
 
-            let pinToAdd = Pin(context: self.dataController.viewContext)
             
-            dataController.viewContext.perform {
+
+            dataController.viewContext.perform { //1
                 print("handle -3")
-                // let pinToAdd = Pin(context: self.dataController.viewContext)
+                let pinToAdd = Pin(context: self.dataController.viewContext) //moving above 1 causes pin not drop
                 pinToAdd.latitude = locationCoordinate.latitude
                 pinToAdd.longitude = locationCoordinate.longitude
                 pinToAdd.pageNumber = 1
                 pinToAdd.photoCount = 0
                 try? self.dataController.viewContext.save()
+                _ = FlickrClient.getAllPhotoURLs(currentPin: pinToAdd, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
             }
-            
-            
-//            _ = FlickrClient.getAllPhotoURLs(currentPin: pinToAdd, fetchCount: fetchCount, completion: handleGetAllPhotoURLs(pin:urls:error:))
-            
         }
     }
     
