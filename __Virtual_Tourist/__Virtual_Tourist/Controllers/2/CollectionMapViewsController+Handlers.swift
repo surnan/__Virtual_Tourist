@@ -11,6 +11,12 @@ import UIKit
 extension CollectionMapViewsController {
     
     @objc func handleNewLocationButton(_ sender: UIButton){
-        print("TEST")
+        if sender.isSelected {
+            print("DELETE")
+            deleteIndexSet.removeAll()
+            myCollectionView.reloadData()
+        } else {
+            print("-- GET NEW PICTURES --")
+        }
     }
 }

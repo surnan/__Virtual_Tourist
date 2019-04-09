@@ -43,7 +43,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     lazy var newLocationButton: UIButton = {
         let button = UIButton()
         button.setTitle("New Collection", for: .normal)
-        button.backgroundColor = UIColor.red
+        button.backgroundColor = UIColor.blue
         button.setTitleColor(UIColor.white, for: .normal)
         button.setTitle("Remove Selected Pictures", for: .selected)
         button.setTitleColor(UIColor.red, for: .selected)
@@ -56,7 +56,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         //fill bottom of screen to bevel
         //Button sits on top.  Which helps guarantee text is always readable
         let view = UIView()
-        view.backgroundColor = UIColor.red
+        view.backgroundColor = UIColor.blue
         return view
     }()
     
@@ -103,9 +103,15 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     
     var photosArrayFetchCount = [Photo?](repeating: nil, count: fetchCount)
     
+    var deleteIndexSet = Set<IndexPath>() {
+        didSet {
+            newLocationButton.isSelected = !deleteIndexSet.isEmpty
+        }
+    }
+    
     //MARK:- Code Starts Here
     override func viewDidLoad() {
-        view.backgroundColor = UIColor.yellow
+        view.backgroundColor = UIColor.white
         print("CollectionView ... Pin \(currentPin.coordinate)")
         setupFetchedResultsController()
         loadCollectionArray()
