@@ -30,7 +30,36 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     var fetchedResultsController: NSFetchedResultsController<Photo>!
     
     
-    //MARK:- Lazy Local Variables
+    //MARK:- Local Variables
+
+    lazy var activityView: UIActivityIndicatorView = {
+        let activityVC = UIActivityIndicatorView()
+        activityVC.hidesWhenStopped = true
+        activityVC.style = .gray
+        activityVC.translatesAutoresizingMaskIntoConstraints = false
+        return activityVC
+    }()
+    
+    lazy var newLocationButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("New Collection", for: .normal)
+        button.backgroundColor = UIColor.red
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitle("Remove Selected Pictures", for: .selected)
+        button.setTitleColor(UIColor.red, for: .selected)
+        button.addTarget(self, action: #selector(handleNewLocationButton(_:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    var screenBottomFiller: UIView = {
+        //fill bottom of screen to bevel
+        //Button sits on top.  Which helps guarantee text is always readable
+        let view = UIView()
+        view.backgroundColor = UIColor.red
+        return view
+    }()
+    
     lazy var customizedLayout: UICollectionViewFlowLayout = {
         let columnWidth: CGFloat = 10; let rowHeight: CGFloat = 10
         let screenWidth = view.bounds.width
@@ -108,16 +137,20 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
 
     
     func setupUI(){
-        [myMapView, myCollectionView].forEach{view.addSubview($0)}
+        [myMapView, myCollectionView, newLocationButton, activityView, screenBottomFiller].forEach{view.addSubview($0)}
         let safe = view.safeAreaLayoutGuide
         myMapView.anchor(top: safe.topAnchor, leading: safe.leadingAnchor, trailing: safe.trailingAnchor)
         myMapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25).isActive = true
-        myCollectionView.anchor(top: myMapView.bottomAnchor, leading: myMapView.leadingAnchor,
-                                trailing: myMapView.trailingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor)
+        myCollectionView.anchor(top: myMapView.bottomAnchor, leading: myMapView.leadingAnchor, trailing: myMapView.trailingAnchor,
+                                bottom: newLocationButton.topAnchor)
+        newLocationButton.anchor(leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: safe.bottomAnchor)
+        screenBottomFiller.anchor(top: newLocationButton.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor,
+                                  bottom: view.bottomAnchor)
+        //emptyCollectionStack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        //emptyCollectionStack.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
-    
-    
-
 }
 
 
