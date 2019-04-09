@@ -29,6 +29,19 @@ extension PinsMapController {
             guard let _previousPinID = previousPinID, let pinToChange = dataController.viewContext.object(with: _previousPinID) as? Pin else {return}
             deleteAllPhotosOnPin(pinToChange)
             pinToChange.movePin(coordinate: currentAnnotation.coordinate, viewContext: dataController.viewContext)
+            
+            
+            dataController.viewContext.perform { //1
+                print("handle -3")
+                //let pinToAdd = Pin(context: self.dataController.viewContext) //moving above 1 causes pin not drop
+                //It's working in this scenario.  Buggy when adding/inserting pin
+                pinToChange.pageNumber = 1
+                pinToChange.photoCount = 0
+                try? self.dataController.viewContext.save()
+                _ = FlickrClient.getAllPhotoURLs(currentPin: pinToChange, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
+            }
+            
+            
             previousPinID = nil
         case .canceling:
             if let view = view as? MKPinAnnotationView {view.pinTintColor = UIColor.black}
@@ -46,6 +59,8 @@ extension PinsMapController {
                 try? self.dataController.viewContext.save()
                 return
             }
+            
+            
         } else {
             PushToCollectionViewController(apin: desiredPin)
         }
