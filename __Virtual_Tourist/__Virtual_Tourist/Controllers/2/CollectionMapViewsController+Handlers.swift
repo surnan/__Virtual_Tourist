@@ -9,43 +9,67 @@
 import UIKit
 import CoreData
 
+//func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//    //Using 'currentPin.urlCount' in case returned photos is between 0 and 25
+//    return Int(currentPin.urlCount)
+//}
+
 extension CollectionMapViewsController {
     
     func removeSelectedPicture(_ sender: UIButton) {
+        //Need to make CoreData changes to update currentPin.urlCount before changing array
         
     
         let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
+        let pagesToDelete = Int32(deleteIndexSet.count)
+        let currentPinID = currentPin.objectID
         
-        self.deleteIndexSet.forEach { (deleteIndex) in
+        self.deleteIndexSet.forEach { (deleteIndex) in //+1
             guard let photoToRemove = self.photosArrayFetchCount[deleteIndex.item] else {return}
             let photoToRemoveID = photoToRemove.objectID
-            var pagesToDelete: Int32 = 0
             
             dataController.backGroundContext.perform {
-                let backgroundPhotoToRemove = backgroundContext.object(with: photoToRemoveID) as! Photo
-                pagesToDelete = pagesToDelete + 1
-//                let temp = UIImage(data: backgroundPhotoToRemove.imageData!)
-                backgroundContext.delete(backgroundPhotoToRemove)
-                self.currentPin.photoCount = self.currentPin.photoCount - pagesToDelete
-                self.currentPin.urlCount = self.currentPin.urlCount - pagesToDelete
+                let backgroundPhoto = backgroundContext.object(with: photoToRemoveID) as! Photo
+                backgroundContext.delete(backgroundPhoto)
                 try? backgroundContext.save()
-                DispatchQueue.main.async {
-                    self.deleteIndexSet.removeAll()
-                    self.loadCollectionArray()
-                    self.myCollectionView.reloadData()
-                }
             }
+        } //-1
+        
+        
+         dataController.backGroundContext.perform {
+            let backgroundPin = backgroundContext.object(with: currentPinID) as! Pin
+            backgroundPin.photoCount = backgroundPin.photoCount - pagesToDelete
+            backgroundPin.urlCount = backgroundPin.urlCount - pagesToDelete
+            try? backgroundContext.save()
         }
     }
     
     
+    
+
+    
+    
+    /*
+ dataController.backGroundContext.perform {
+ let backgroundPhotoToRemove = backgroundContext.object(with: photoToRemoveID) as! Photo
+ pagesToDelete = pagesToDelete + 1
+ backgroundContext.delete(backgroundPhotoToRemove)
+ self.currentPin.photoCount = self.currentPin.photoCount - pagesToDelete
+ self.currentPin.urlCount = self.currentPin.urlCount - pagesToDelete
+ try? backgroundContext.save()
+ DispatchQueue.main.async {
+ self.deleteIndexSet.removeAll()
+ self.loadCollectionArray()
+ }
+ }
+ */
     
     @objc func handleNewLocationButton(_ sender: UIButton){
         if sender.isSelected {
             print("DELETE")
             removeSelectedPicture(sender)
             
-            myCollectionView.reloadData()
+//            myCollectionView.reloadData()
             
 
         } else {

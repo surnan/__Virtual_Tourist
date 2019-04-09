@@ -140,13 +140,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
             photosArrayFetchCount[destIndex] = currentPhoto
         }
     }
-    
-    
-    
-    
-    
-    
-    
+
     
     func setupUI(){
         [myMapView, myCollectionView, newLocationButton, activityView, screenBottomFiller].forEach{view.addSubview($0)}
@@ -166,14 +160,14 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
 }
 
 
-struct PhotoElementForCollectionView {
-    var index: IndexPath
-    var photo: Photo
-}
-
-extension Array where Element : Photo {
-    func hello(){
-        print("Hello World")
-    }
-}
+//struct PhotoElementForCollectionView {
+//    var index: IndexPath
+//    var photo: Photo
+//}
+//
+//extension Array where Element : Photo {
+//    func hello(){
+//        print("Hello World")
+//    }
+//}
 

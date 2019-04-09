@@ -30,6 +30,7 @@ extension CollectionMapViewsController {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
+        //crash if clicking on cell while cell is Loading State
         if deleteIndexSet.contains(indexPath) {
             let cell = myCollectionView.dequeueReusableCell(withReuseIdentifier: reuseIDCellIsSelected, for: indexPath) as! FinalCollectionSelectedImageCell
             cell.myPhoto = photosArrayFetchCount[indexPath.row]!
