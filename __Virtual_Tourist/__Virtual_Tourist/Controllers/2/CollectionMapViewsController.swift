@@ -71,50 +71,53 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         return map
     }()
     
+    
+    var photosArrayFetchCount = [Photo?](repeating: nil, count: fetchCount)
+    
     //MARK:- Code Starts Here
     override func viewDidLoad() {
         view.backgroundColor = UIColor.yellow
         print("CollectionView ... Pin \(currentPin.coordinate)")
         setupFetchedResultsController()
+        loadCollectionArray()
         setupUI()
     }
     
-    var temp = [Photo?](repeating: nil, count: fetchCount)
+    func loadCollectionArray(){
+        photosArrayFetchCount.removeAll()
+        photosArrayFetchCount = [Photo?](repeating: nil, count: fetchCount)
+        
+        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
+        let predicate = NSPredicate(format: "pin == %@", argumentArray: [currentPin])
+        fetchRequest.predicate = predicate
+        let sortDescriptor = NSSortDescriptor(key: "index", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        let results = try? dataController.backGroundContext.fetch(fetchRequest)
+        
+        guard let _results = results else {
+            print("Unable to unwrap 'results'")
+            return
+        }
+        
+        _results.forEach { (currentPhoto) in
+            let destIndex = Int(currentPhoto.index)
+            photosArrayFetchCount[destIndex] = currentPhoto
+        }
+    }
 
     
     func setupUI(){
-        
         [myMapView, myCollectionView].forEach{view.addSubview($0)}
-        
         let safe = view.safeAreaLayoutGuide
         myMapView.anchor(top: safe.topAnchor, leading: safe.leadingAnchor, trailing: safe.trailingAnchor)
         myMapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25).isActive = true
-        myCollectionView.anchor(top: myMapView.bottomAnchor, leading: myMapView.leadingAnchor, trailing: myMapView.trailingAnchor, bottom:
-            view.safeAreaLayoutGuide.bottomAnchor)
-//        newLocationButton.anchor(leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: safe.bottomAnchor)
-//        screenBottomFiller.anchor(top: newLocationButton.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: view.bottomAnchor)
-//        emptyCollectionStack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        emptyCollectionStack.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-//        activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        myCollectionView.anchor(top: myMapView.bottomAnchor, leading: myMapView.leadingAnchor,
+                                trailing: myMapView.trailingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor)
     }
     
-//    func fetchData(){
-//        onlyDateArr.removeAll()
-//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PhotoData")
-//        do {
-//            let results = try context.fetch(fetchRequest)
-//            let  dateCreated = results as! [PhotoData]
-//
-//            for _datecreated in dateCreated {
-//                print(_datecreated.dateCreation!)
-//                onlyDateArr.append(_datecreated)
-//            }
-//        }catch let err as NSError {
-//            print(err.debugDescription)
-//        }
-//    }
+    
+
 }
 
 
@@ -128,3 +131,4 @@ extension Array where Element : Photo {
         print("Hello World")
     }
 }
+
