@@ -11,10 +11,40 @@ import CoreData
 
 extension CollectionMapViewsController {
     
+    func removeSelectedPicture(_ sender: UIButton) {
+        
+    
+        let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
+        
+        self.deleteIndexSet.forEach { (deleteIndex) in
+            guard let photoToRemove = self.photosArrayFetchCount[deleteIndex.item] else {return}
+            let photoToRemoveID = photoToRemove.objectID
+            var pagesToDelete: Int32 = 0
+            
+            dataController.backGroundContext.perform {
+                let backgroundPhotoToRemove = backgroundContext.object(with: photoToRemoveID) as! Photo
+                pagesToDelete = pagesToDelete + 1
+//                let temp = UIImage(data: backgroundPhotoToRemove.imageData!)
+                backgroundContext.delete(backgroundPhotoToRemove)
+                self.currentPin.photoCount = self.currentPin.photoCount - pagesToDelete
+                self.currentPin.urlCount = self.currentPin.urlCount - pagesToDelete
+                try? backgroundContext.save()
+                DispatchQueue.main.async {
+                    self.deleteIndexSet.removeAll()
+                    self.loadCollectionArray()
+                    self.myCollectionView.reloadData()
+                }
+            }
+        }
+    }
+    
+    
+    
     @objc func handleNewLocationButton(_ sender: UIButton){
         if sender.isSelected {
             print("DELETE")
-            deleteIndexSet.removeAll()
+            removeSelectedPicture(sender)
+            
             myCollectionView.reloadData()
             
 
@@ -34,6 +64,11 @@ extension CollectionMapViewsController {
             }
         }
     }
+    
+    
+    
+    
+    
     
     func handleGetAllPhotoURLs(pin: Pin, urls: [URL], error: Error?){
         let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext

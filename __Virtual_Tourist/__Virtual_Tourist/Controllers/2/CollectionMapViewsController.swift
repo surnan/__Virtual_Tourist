@@ -140,7 +140,13 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
             photosArrayFetchCount[destIndex] = currentPhoto
         }
     }
-
+    
+    
+    
+    
+    
+    
+    
     
     func setupUI(){
         [myMapView, myCollectionView, newLocationButton, activityView, screenBottomFiller].forEach{view.addSubview($0)}
