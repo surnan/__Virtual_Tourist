@@ -52,6 +52,11 @@ extension CollectionMapViewsController {
                 self.currentPin.pageNumber = self.currentPin.pageNumber + 1
                 self.currentPin.photoCount = 0
                 try? self.dataController.viewContext.save()
+                
+                DispatchQueue.main.async {
+                    self.activityView.startAnimating()
+                }
+                
                 _ = FlickrClient.getAllPhotoURLs(currentPin: self.currentPin, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
             }
         }
