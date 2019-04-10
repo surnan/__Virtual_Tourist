@@ -111,17 +111,67 @@ extension CollectionMapViewsController {
 
     }
     
-    
-    func stuff(){
-        let myQueue = OperationQueue()
+    func removeSelectedPicture3() {
+        //Need to make CoreData changes to update currentPin.urlCount before changing array
         
-        let blockOne = BlockOperation {
-            // self.removeSelectedPicture()
-            self.removeSelectedPicture2()
+        let context = dataController.viewContext
+        
+        var newIndex: Int32 = 0
+        
+        context.perform {
+            for (loopIndex, photo) in self.photosArrayFetchCount.enumerated(){
+                guard let _photo = photo else {continue}
+                
+                let _indexPath = IndexPath(item: loopIndex, section: 0)
+                
+                let _photoID = _photo.objectID; let _currentPinID = self.currentPin.objectID
+                let currentPhoto = context.object(with: _photoID) as! Photo
+                let _currentPin = context.object(with: _currentPinID) as! Pin
+                
+                if self.deleteIndexSet.contains(_indexPath){
+                    context.delete(currentPhoto)
+                    _currentPin.urlCount = _currentPin.urlCount - 1
+                    _currentPin.photoCount = _currentPin.photoCount - 1
+                    try? context.save()
+                } else {
+                    currentPhoto.index = newIndex
+                    newIndex = newIndex + 1
+                    try? context.save()
+                }
+                
+                if loopIndex == (self.photosArrayFetchCount.count - 1) {
+                    DispatchQueue.main.async {
+                        self.deleteIndexSet.removeAll()
+                        self.loadCollectionArray()
+                        self.myCollectionView.reloadData()
+                    }
+                }
+            }
         }
         
+    }
+    
+    func stuff(){
         
-        myQueue.addOperations([blockOne], waitUntilFinished: false)
+        let queue = DispatchQueue(label: "com.company.app.queue", attributes: .concurrent)
+        queue.async {
+            self.removeSelectedPicture3()
+        }
+
+        
+        let dispatchWorkItem = DispatchWorkItem(qos: .default, flags: .barrier) {
+            print("#3 finished")
+        }
+        
+//        let myQueue = OperationQueue()
+//
+//        let blockOne = BlockOperation {
+//            // self.removeSelectedPicture()
+//            self.removeSelectedPicture2()
+//        }
+//
+//
+//        myQueue.addOperations([blockOne], waitUntilFinished: false)
         print("") //nothing happens here
     }
 
