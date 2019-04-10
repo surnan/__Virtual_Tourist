@@ -109,6 +109,10 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         }
     }
     
+    deinit {
+        fetchedResultsController = nil
+    }
+    
     //MARK:- Code Starts Here
     override func viewDidLoad() {
         view.backgroundColor = UIColor.white
@@ -158,16 +162,3 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 }
-
-
-//struct PhotoElementForCollectionView {
-//    var index: IndexPath
-//    var photo: Photo
-//}
-//
-//extension Array where Element : Photo {
-//    func hello(){
-//        print("Hello World")
-//    }
-//}
-

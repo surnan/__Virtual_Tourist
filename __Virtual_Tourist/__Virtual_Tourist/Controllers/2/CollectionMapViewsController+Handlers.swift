@@ -16,7 +16,7 @@ import CoreData
 
 extension CollectionMapViewsController {
     
-    func removeSelectedPicture(_ sender: UIButton) {
+    func removeSelectedPicture() {
         //Need to make CoreData changes to update currentPin.urlCount before changing array
         
     
@@ -41,11 +41,89 @@ extension CollectionMapViewsController {
             backgroundPin.photoCount = backgroundPin.photoCount - pagesToDelete
             backgroundPin.urlCount = backgroundPin.urlCount - pagesToDelete
             try? backgroundContext.save()
+            print("") //stuff is deleted
         }
     }
     
     
+
     
+    
+    func removeSelectedPicture2() {
+        //Need to make CoreData changes to update currentPin.urlCount before changing array
+        
+        
+        
+//        let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
+//        let pagesToDelete = Int32(deleteIndexSet.count)
+//        let currentPinID = currentPin.objectID
+        let context = dataController.viewContext
+        
+        var currentIndex: Int32 = 0
+        
+        context.perform {
+            for (index, photo) in self.photosArrayFetchCount.enumerated(){
+                guard let _photo = photo else {continue}
+                let _indexPath = IndexPath(item: index, section: 0)
+                let _photoID = _photo.objectID
+                
+                let currentPhoto = context.object(with: _photoID) as! Photo
+                
+                if self.deleteIndexSet.contains(_indexPath){
+                    context.delete(currentPhoto)
+                    
+                    if index == self.photosArrayFetchCount.count - 1 {
+                        let _currentPinID = self.currentPin.objectID
+                        let _currentPin = context.object(with: _currentPinID) as! Pin
+//                        _currentPin.urlCount = currentIndex
+//                        _currentPin.photoCount = currentIndex
+                        
+                        _currentPin.urlCount = _currentPin.urlCount - Int32(self.deleteIndexSet.count)
+                        _currentPin.photoCount = _currentPin.photoCount - Int32(self.deleteIndexSet.count)
+                        
+                        try? context.save()
+                        DispatchQueue.main.async {
+                            self.deleteIndexSet.removeAll()
+                            self.loadCollectionArray()
+                            self.myCollectionView.reloadData()
+                        }
+                    }
+                    continue
+                } else {
+                    currentPhoto.index = currentIndex
+                    currentIndex = currentIndex + 1
+                }
+                
+                if index == self.photosArrayFetchCount.count - 1 {
+                    let _currentPinID = self.currentPin.objectID
+                    let _currentPin = context.object(with: _currentPinID) as! Pin
+                    _currentPin.urlCount = currentIndex
+                    _currentPin.photoCount = currentIndex
+                    try? context.save()
+                    DispatchQueue.main.async {
+                        self.deleteIndexSet.removeAll()
+                        self.loadCollectionArray()
+                        self.myCollectionView.reloadData()
+                    } 
+                }
+            }
+        }
+
+    }
+    
+    
+    func stuff(){
+        let myQueue = OperationQueue()
+        
+        let blockOne = BlockOperation {
+            // self.removeSelectedPicture()
+            self.removeSelectedPicture2()
+        }
+        
+        
+        myQueue.addOperations([blockOne], waitUntilFinished: false)
+        print("") //nothing happens here
+    }
 
     
     
@@ -67,7 +145,8 @@ extension CollectionMapViewsController {
     @objc func handleNewLocationButton(_ sender: UIButton){
         if sender.isSelected {
             print("DELETE")
-            removeSelectedPicture(sender)
+            stuff()
+//            removeSelectedPicture()
             
 //            myCollectionView.reloadData()
             
