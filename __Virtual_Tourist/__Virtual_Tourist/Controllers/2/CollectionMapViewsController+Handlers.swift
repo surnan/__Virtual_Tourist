@@ -50,11 +50,11 @@ extension CollectionMapViewsController {
         
         let dispatchWorkItem = DispatchWorkItem(qos: .default, flags: .barrier) {
             print("#3 finished")
-            DispatchQueue.main.async {
-                self.deleteIndexSet.removeAll()
-                self.loadCollectionArray()
-                self.myCollectionView.reloadData()
-            }
+//            DispatchQueue.main.async {
+//                self.deleteIndexSet.removeAll()
+//                self.loadCollectionArray()
+//                self.myCollectionView.reloadData()
+//            }
         }
         
         queue.async(execute: dispatchWorkItem)
@@ -104,11 +104,6 @@ extension CollectionMapViewsController {
             URLSession.shared.dataTask(with: currentURL, completionHandler: { (imageData, response, error) in
                 guard let imageData = imageData else {return}
                 connectPhotoAndPin(dataController: self.dataController, currentPin:  pin , data: imageData, urlString: currentURL.absoluteString, index: index)
-                
-                /////////
-                self.myCollectionView.reloadData()
-                /////////
-                
             }).resume()
         }
     }
@@ -118,6 +113,8 @@ extension CollectionMapViewsController {
         fetch111.predicate = NSPredicate(format: "pin = %@", argumentArray: [pinToChange])
         let request = NSBatchDeleteRequest(fetchRequest: fetch111)
         _ = try? self.dataController.backGroundContext.execute(request)
+        currentPin.urlCount = 0
+        currentPin.photoCount = 0
         try? self.dataController.viewContext.save()
     }
 }

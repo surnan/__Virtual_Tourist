@@ -53,6 +53,7 @@ class PinsMapController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     var dataController: DataController!     //injected from AppDelegate
     var previousPinID: NSManagedObjectID?   //so we can retreive object prior to updating coordinates
     
+    var delegate: CollectionMapViewControllerDelegate?
     var saveObserverToken: Any?
 }
 

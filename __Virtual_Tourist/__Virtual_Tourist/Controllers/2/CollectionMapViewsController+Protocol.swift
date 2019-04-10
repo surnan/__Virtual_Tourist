@@ -10,8 +10,15 @@ import Foundation
 import MapKit
 import CoreData
 
+
 extension CollectionMapViewsController {
     func refresh() {
-        print("")
+        print("Protocol-Refresh finished")
+        DispatchQueue.main.async {
+            self.deleteIndexSet.removeAll()
+            self.loadCollectionArray()
+            self.myCollectionView.reloadData()
+            print("")
+        }
     }
 }
