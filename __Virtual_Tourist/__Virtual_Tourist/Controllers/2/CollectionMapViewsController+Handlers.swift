@@ -14,11 +14,8 @@ extension CollectionMapViewsController {
     
     func removeSelectedPicture() {
         //Need to make CoreData changes to update currentPin.urlCount before changing array
-        
         let context = dataController.viewContext
-        
         var newIndex: Int32 = 0
-        
         context.perform {
             for (loopIndex, photo) in self.photosArrayFetchCount.enumerated(){
                 guard let _photo = photo else {continue}
@@ -41,30 +38,10 @@ extension CollectionMapViewsController {
         }
     }
     
-    func stuff(){
-        let queue = DispatchQueue(label: "com.company.app.queue", attributes: .concurrent)
-        queue.async {
-            self.removeSelectedPicture()
-        }
-
-        
-        let dispatchWorkItem = DispatchWorkItem(qos: .default, flags: .barrier) {
-            print("#3 finished")
-//            DispatchQueue.main.async {
-//                self.deleteIndexSet.removeAll()
-//                self.loadCollectionArray()
-//                self.myCollectionView.reloadData()
-//            }
-        }
-        
-        queue.async(execute: dispatchWorkItem)
-    }
-
-    
     @objc func handleNewLocationButton(_ sender: UIButton){
         if sender.isSelected {
             print("DELETE")
-            stuff()
+            removeSelectedPicture()
         } else {
             print("-- GET NEW PICTURES --")
             deleteAllPhotosOnPin(currentPin)
@@ -80,26 +57,18 @@ extension CollectionMapViewsController {
         }
     }
     
-    
-    
-    
-    
-    
     func handleGetAllPhotoURLs(pin: Pin, urls: [URL], error: Error?){
         let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
         if let error = error {
             print("func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
             return
         }
-        
         let pinId = pin.objectID
-    
         backgroundContext.perform {
             let backgroundPin = backgroundContext.object(with: pinId) as! Pin
             backgroundPin.urlCount = Int32(urls.count)
             try? backgroundContext.save()
         }
-        
         for (index, currentURL) in urls.enumerated() {
             URLSession.shared.dataTask(with: currentURL, completionHandler: { (imageData, response, error) in
                 guard let imageData = imageData else {return}
