@@ -25,7 +25,15 @@ extension PinsMapController {
         }()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editDoneButton)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Delete ALL", style: .done, target: self, action: #selector(handleDeleteAllButton))
+        
+        
+        let imageIcon = #imageLiteral(resourceName: "delete_84").withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: imageIcon, landscapeImagePhone: imageIcon, style: .done,
+                                                           target: self, action: #selector(handleDeleteAllButton))
+        
+        
+        
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Delete ALL", style: .done, target: self, action: #selector(handleDeleteAllButton))
         
     }
     

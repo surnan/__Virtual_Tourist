@@ -17,6 +17,20 @@ extension PinsMapController {
     }
     
     @objc func handleDeleteAllButton(_ sender: UIButton){
+        
+        if mapView.annotations.isEmpty {
+            let myAlertController = UIAlertController(title: "Delete All Pins Cancelled", message: "No Pins on Map to Delete", preferredStyle: .alert)
+            myAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(myAlertController, animated: true)
+        }
+        
+        let myAlertController = UIAlertController(title: "Confirmation Needed", message: "Please confirm deletion of all pins", preferredStyle: .alert)
+        myAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: self.deleteThePins))
+        myAlertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        present(myAlertController, animated: true)
+    }
+    
+    func deleteThePins(alert: UIAlertAction){
         mapView.removeAnnotations(mapView.annotations)
         do {
             let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
@@ -27,8 +41,8 @@ extension PinsMapController {
             print ("There was an error when trying to delete all Pins on Map")
         }
     }
-    
  
+    
     
     @objc func handleLongPress(_ sender: UILongPressGestureRecognizer){
         print("handle -1")
