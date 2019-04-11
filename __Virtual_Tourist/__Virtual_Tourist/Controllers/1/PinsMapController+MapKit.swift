@@ -78,6 +78,10 @@ extension PinsMapController {
         let nextController = CollectionMapViewsController()
         nextController.dataController = self.dataController
         nextController.currentPin = apin
+        
+        
+        
+        
         delegate = nextController
         navigationController?.pushViewController(nextController, animated: true)
     }

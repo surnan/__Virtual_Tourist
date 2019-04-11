@@ -68,6 +68,8 @@ extension CollectionMapViewsController {
         print("handleGetAllPhotoURLs ---> urls.count  ---> \(urls.count)")
         DispatchQueue.main.async {
             self.activityView.stopAnimating()
+            print("urls.isEmpty ----> \(urls.isEmpty)")
+            
             if urls.isEmpty {
                 self.emptyLabel.isHidden = false
             } else {

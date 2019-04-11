@@ -22,7 +22,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     //MARK:- Injected Variables
     var currentPin: Pin!   //injected from MapController
     var dataController: DataController! //injected from MapController
-    
+    var taskToGetPhotoURLs: URLSessionTask!
     
     //MARK:- Local Variables
     let reuseIdLoadingCell = "reuseIdLoadingCell"
@@ -132,7 +132,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     //MARK:- Code Starts Here
     override func viewDidLoad() {
         view.backgroundColor = UIColor.white
-//        print("CollectionView ... Pin \(currentPin.coordinate)")
+        print("CollectionView ... Pin \(currentPin.urlCount)")
         setupFetchedResultsController()
         loadCollectionArray()
         setupUI()
@@ -185,7 +185,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     
     func setupNavigationMenu(){
         navigationItem.leftBarButtonItems = [UIBarButtonItem(title: "⏎ OK", style: .done, target: self, action: #selector(handleBack))]
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "noun_Pin_2362323_000000"), style: .plain, target: self, action: #selector(handleReCenter))        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "noun_Pin_2362323_000000"), style: .plain, target: self, action: #selector(handleReCenter))
     }
     
     @objc func handleReCenter(){

@@ -15,7 +15,7 @@ class PinsMapController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     //MARK:- UI Constraints - CONSTANTS
     let bottomUILabelHeight: CGFloat = 70
     let defaultTitleFontSize: CGFloat = 22
-    let defaultFontSize: CGFloat = 18
+
     
     //MARK:- UI Constraints - DYNAMIC
     var anchorMapTop_SafeAreaTop: NSLayoutConstraint?
@@ -44,14 +44,13 @@ class PinsMapController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
     
     var tapDeletesPin = false               //determines if deletionLabel is shown in UI
     var mapView = MKMapView()
     
     var myFetchController: NSFetchedResultsController<Pin>!
     var dataController: DataController!     //injected from AppDelegate
-    var previousPinID: NSManagedObjectID?   //so we can retreive object prior to updating coordinates
+    var previousPinID: NSManagedObjectID?   //so we can retreive object prior to changing coordinates for move
     
     var delegate: CollectionMapViewControllerDelegate?
     var taskToGetPhotoURLs: URLSessionTask?

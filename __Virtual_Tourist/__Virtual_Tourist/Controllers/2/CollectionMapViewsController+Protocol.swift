@@ -21,9 +21,4 @@ extension CollectionMapViewsController {
             print("")
         }
     }
-    
-    
-    
-    
-    
 }
