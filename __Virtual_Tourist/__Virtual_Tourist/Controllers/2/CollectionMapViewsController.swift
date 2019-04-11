@@ -111,6 +111,14 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         return map
     }()
     
+    var emptyLabel: UILabel = {
+       let label = UILabel()
+        label.text = "This pin has no images"
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     
     var photosArrayFetchCount = [Photo?](repeating: nil, count: fetchCount)
     
@@ -158,18 +166,21 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
 
     
     func setupUI(){
-        [myMapView, myCollectionView, newLocationButton, activityView, screenBottomFiller].forEach{view.addSubview($0)}
+        [myMapView, myCollectionView, newLocationButton, activityView, screenBottomFiller, emptyLabel].forEach{view.addSubview($0)}
+        
         let safe = view.safeAreaLayoutGuide
         myMapView.anchor(top: safe.topAnchor, leading: safe.leadingAnchor, trailing: safe.trailingAnchor)
         myMapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25).isActive = true
-        myCollectionView.anchor(top: myMapView.bottomAnchor, leading: myMapView.leadingAnchor, trailing: myMapView.trailingAnchor,
-                                bottom: newLocationButton.topAnchor)
+        myCollectionView.anchor(top: myMapView.bottomAnchor, leading: myMapView.leadingAnchor,
+                                trailing: myMapView.trailingAnchor, bottom: newLocationButton.topAnchor)
         newLocationButton.anchor(leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: safe.bottomAnchor)
-        screenBottomFiller.anchor(top: newLocationButton.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor,
-                                  bottom: view.bottomAnchor)
-        //emptyCollectionStack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //emptyCollectionStack.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        screenBottomFiller.anchor(top: newLocationButton.bottomAnchor, leading: view.leadingAnchor,
+                                  trailing: view.trailingAnchor, bottom: view.bottomAnchor)
         activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        emptyLabel.isHidden = currentPin.urlCount == 0 ? false : true
     }
 }

@@ -43,6 +43,7 @@ extension CollectionMapViewsController {
             print("DELETE")
             removeSelectedPicture()
         } else {
+            
 //            print("-- GET NEW PICTURES --")
             deleteAllPhotosOnPin(currentPin)
             dataController.viewContext.perform { //1
@@ -54,6 +55,7 @@ extension CollectionMapViewsController {
                 try? self.dataController.viewContext.save()
                 
                 DispatchQueue.main.async {
+                    self.emptyLabel.isHidden = true
                     self.activityView.startAnimating()
                 }
                 
@@ -67,9 +69,10 @@ extension CollectionMapViewsController {
 
         DispatchQueue.main.async {
             self.activityView.stopAnimating()
-            
             if urls.isEmpty {
-                print("SHOW EMPTY MESSAGE LABEL")
+                self.emptyLabel.isHidden = false
+            } else {
+                self.emptyLabel.isHidden = true
             }
         }
         
