@@ -23,8 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-//        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//        print(urls[urls.count-1] as URL)    //prints app directory path
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        print(urls[urls.count-1] as URL)    //prints app directory path
         
         dataController.load()
         

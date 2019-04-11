@@ -27,9 +27,15 @@ extension PinsMapController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editDoneButton)
         
         let imageIcon = #imageLiteral(resourceName: "delete_84").withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: imageIcon, landscapeImagePhone: imageIcon, style: .done,
-                                                           target: self, action: #selector(handleDeleteAllButton))
+        navigationItem.leftBarButtonItems = [UIBarButtonItem(image: imageIcon, landscapeImagePhone: imageIcon, style: .done,
+                                                           target: self, action: #selector(handleDeleteAllButton)),
+                                             UIBarButtonItem(image: #imageLiteral(resourceName: "noun_Pin_2362323_000000"), landscapeImagePhone: imageIcon, style: .done,
+                                                             target: self, action: #selector(handleReCenter))]
     }
+    
+
+    
+    
     
     func setupUI(){
         setupNavigationBar()
@@ -81,14 +87,20 @@ extension PinsMapController {
         mapView.addGestureRecognizer(myLongPressGesture)
         mapView.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         setupUI()
-        
         setupFetchController()
         myFetchController.delegate = self
         getAllPins().forEach{
             placeAnnotation(pin: $0)
         }
-        
     }
+    
+    @objc func handleReCenter(){
+        let myCoord = CLLocationCoordinate2D(latitude: 40.20207864088219, longitude: -95.26754605676328)
+        let span = MKCoordinateSpan(latitudeDelta: 70.0, longitudeDelta: 70.0)
+        let region = MKCoordinateRegion(center: myCoord, span: span)
+        mapView.setRegion(region, animated: false)
+    }
+
     
     func getAllPins()->[Pin]{
         return myFetchController.fetchedObjects ?? []
@@ -99,5 +111,4 @@ extension PinsMapController {
         let myNewAnnotation = CustomAnnotation(lat: lat, lon: lon)
         mapView.addAnnotation(myNewAnnotation)
     }
-    
 }

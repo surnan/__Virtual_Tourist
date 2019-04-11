@@ -66,7 +66,6 @@ extension CollectionMapViewsController {
     
     func handleGetAllPhotoURLs(pin: Pin, urls: [URL], error: Error?){
         print("handleGetAllPhotoURLs ---> urls.count  ---> \(urls.count)")
-
         DispatchQueue.main.async {
             self.activityView.stopAnimating()
             if urls.isEmpty {

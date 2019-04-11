@@ -56,5 +56,11 @@ class PinsMapController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     var delegate: CollectionMapViewControllerDelegate?
     var taskToGetPhotoURLs: URLSessionTask?
     var saveObserverToken: Any?
+    
+    var defaultMapType: MKMapType!
+    var defaultRegion: MKCoordinateRegion!
+    var defaultCenterCoordinate: CLLocationCoordinate2D!
+    var defaultVisibleMapRect: MKMapRect!
+    var defaultSpan:  MKCoordinateSpan!
 }
 
