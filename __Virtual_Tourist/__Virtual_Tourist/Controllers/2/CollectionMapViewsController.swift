@@ -14,7 +14,6 @@ import CoreData
 
 protocol CollectionMapViewControllerDelegate {
     func refreshCollectionView()
-    
 }
 
 
@@ -23,15 +22,6 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     //MARK:- Injected Variables
     var currentPin: Pin!   //injected from MapController
     var dataController: DataController! //injected from MapController
-    var taskToGetPhotoURLs: URLSessionTask? {
-        didSet{
-            taskToGetPhotoURLsChanged()
-        }
-    }
-    
-    func taskToGetPhotoURLsChanged(){
-//        print("\ndidSet---> taskToGetPhotoURLs?.state.rawValue  ---> \(taskToGetPhotoURLs?.state.rawValue)\n\n")
-    }
     
     
     //MARK:- Local Variables
@@ -194,11 +184,16 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     
     
     func setupNavigationMenu(){
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Re-Center", style: .done, target: self, action: #selector(handleReCenter))]
+        navigationItem.leftBarButtonItems = [UIBarButtonItem(title: "⏎ OK", style: .done, target: self, action: #selector(handleBack))]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "noun_Pin_2362323_000000"), style: .plain, target: self, action: #selector(handleReCenter))        
     }
     
     @objc func handleReCenter(){
         myMapView.centerCoordinate = firstAnnotation.coordinate
+    }
+    
+    @objc func handleBack(){
+        navigationController?.popViewController(animated: true)
     }
     
 }

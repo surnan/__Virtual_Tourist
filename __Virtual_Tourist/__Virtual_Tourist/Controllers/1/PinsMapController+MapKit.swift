@@ -78,9 +78,7 @@ extension PinsMapController {
         let nextController = CollectionMapViewsController()
         nextController.dataController = self.dataController
         nextController.currentPin = apin
-        nextController.taskToGetPhotoURLs = taskToGetPhotoURLs
         delegate = nextController
-//        print("lat/lon ---> \(apin.coordinate)")
         navigationController?.pushViewController(nextController, animated: true)
     }
     
