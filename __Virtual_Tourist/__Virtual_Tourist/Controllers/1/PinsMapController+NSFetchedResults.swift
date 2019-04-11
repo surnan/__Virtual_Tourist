@@ -48,11 +48,11 @@ extension PinsMapController {
             guard let newPin = anObject as? Pin else {return}
             let newAnnotation = CustomAnnotation(lat: newPin.latitude, lon: newPin.longitude)
             mapView.addAnnotation(newAnnotation)
-            delegate?.refresh()
-            print("inserted pin")
+            delegate?.refreshCollectionView()
+//            print("inserted pin")
         case .update:
-            print("updated pin")
-            delegate?.refresh()
+//            print("updated pin")
+            delegate?.refreshCollectionView()
         default:
             break
         }

@@ -90,7 +90,7 @@ class FlickrClient {
                         array_URLString2.append(urlString)
                         array_photo_URLs.append(URL(string: urlString)!)
                         
-                        print("1 - array_URLString2 --> \(array_URLString2)")
+//                        print("1 - array_URLString2 --> \(array_URLString2)")
                         count = count + 1
                         print("count --> \(count)")
                         print("temp.photos.photo.count --> \(temp.photos.photo.count)")
@@ -100,7 +100,7 @@ class FlickrClient {
                         }
                         
                     })
-                    print("2 - array_URLString2 --> \(array_URLString2)")
+//                    print("2 - array_URLString2 --> \(array_URLString2)")
                 }
                 
                 completion(currentPin, [], nil)

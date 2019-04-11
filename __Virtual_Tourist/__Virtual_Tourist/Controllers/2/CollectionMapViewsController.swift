@@ -13,7 +13,8 @@ import CoreData
 
 
 protocol CollectionMapViewControllerDelegate {
-    func refresh()
+    func refreshCollectionView()
+    
 }
 
 
@@ -22,6 +23,16 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     //MARK:- Injected Variables
     var currentPin: Pin!   //injected from MapController
     var dataController: DataController! //injected from MapController
+    var taskToGetPhotoURLs: URLSessionTask? {
+        didSet{
+            taskToGetPhotoURLsChanged()
+        }
+    }
+    
+    func taskToGetPhotoURLsChanged(){
+        print("\ndidSet---> taskToGetPhotoURLs?.state.rawValue  ---> \(taskToGetPhotoURLs?.state.rawValue)\n\n")
+    }
+    
     
     //MARK:- Local Variables
     let reuseIdLoadingCell = "reuseIdLoadingCell"
@@ -116,7 +127,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     //MARK:- Code Starts Here
     override func viewDidLoad() {
         view.backgroundColor = UIColor.white
-        print("CollectionView ... Pin \(currentPin.coordinate)")
+//        print("CollectionView ... Pin \(currentPin.coordinate)")
         setupFetchedResultsController()
         loadCollectionArray()
         setupUI()

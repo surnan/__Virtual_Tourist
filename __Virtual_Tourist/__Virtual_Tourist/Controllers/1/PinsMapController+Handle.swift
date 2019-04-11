@@ -47,7 +47,7 @@ extension PinsMapController {
                 pinToAdd.pageNumber = 1
                 pinToAdd.photoCount = 0
                 try? self.dataController.viewContext.save()
-                _ = FlickrClient.getAllPhotoURLs(currentPin: pinToAdd, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
+                self.taskToGetPhotoURLs = FlickrClient.getAllPhotoURLs(currentPin: pinToAdd, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
             }
         }
     }
@@ -57,7 +57,8 @@ extension PinsMapController {
         let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
         
         if let error = error {
-            print("func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
+            print("error.localizedDescription --> \(error.localizedDescription)")
+            print("...func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
             return
         }
         

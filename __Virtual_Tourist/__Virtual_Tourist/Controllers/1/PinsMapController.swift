@@ -54,6 +54,7 @@ class PinsMapController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     var previousPinID: NSManagedObjectID?   //so we can retreive object prior to updating coordinates
     
     var delegate: CollectionMapViewControllerDelegate?
+    var taskToGetPhotoURLs: URLSessionTask?
     var saveObserverToken: Any?
 }
 
