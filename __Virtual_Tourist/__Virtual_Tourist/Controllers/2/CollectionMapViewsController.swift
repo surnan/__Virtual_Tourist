@@ -30,7 +30,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     }
     
     func taskToGetPhotoURLsChanged(){
-        print("\ndidSet---> taskToGetPhotoURLs?.state.rawValue  ---> \(taskToGetPhotoURLs?.state.rawValue)\n\n")
+//        print("\ndidSet---> taskToGetPhotoURLs?.state.rawValue  ---> \(taskToGetPhotoURLs?.state.rawValue)\n\n")
     }
     
     

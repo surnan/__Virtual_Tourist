@@ -57,7 +57,6 @@ class FlickrClient {
         
         
         let url = Endpoints.photosSearch(latitude, longitude, count, pageNumber).url
-        //        print("Endpoints Photo-Search-URL = \(url)")
         
         var array_photo_URLs = [URL]()
         var array_photoID_secret = [[String: String]]()
@@ -66,48 +65,59 @@ class FlickrClient {
         var count = 0
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            ////
             guard let dataObject = data, error == nil else {
                 DispatchQueue.main.async {
                     completion(currentPin, [], error)
                 }
                 return
-            } ////
+            }
             
             do {
                 let temp = try JSONDecoder().decode(PhotosSearch.self, from: dataObject)
-                temp.photos.photo.forEach{
-                    let tempDict = [$0.id : $0.secret]
-                    array_photoID_secret.append(tempDict)
-                    
-                    let photoURL = FlickrClient.Endpoints.getOnePicture($0.id, $0.secret)
-                    let photoURLString = photoURL.toString
-                    array_URLString.append(photoURLString)
-                    
-                    
-                    getPhotoURL(photoID: $0.id, secret: $0.secret, completion: { (urlString, error) in
-                        guard let urlString = urlString else {return}
-                        array_URLString2.append(urlString)
-                        array_photo_URLs.append(URL(string: urlString)!)
+                
+                if temp.photos.photo.isEmpty == false {
+                    temp.photos.photo.forEach {
+                        let tempDict = [$0.id : $0.secret]
+                        array_photoID_secret.append(tempDict)
                         
-//                        print("1 - array_URLString2 --> \(array_URLString2)")
-                        count = count + 1
-                        print("count --> \(count)")
-                        print("temp.photos.photo.count --> \(temp.photos.photo.count)")
+                        let photoURL = FlickrClient.Endpoints.getOnePicture($0.id, $0.secret)
+                        let photoURLString = photoURL.toString
+                        array_URLString.append(photoURLString)
                         
-                        if count == temp.photos.photo.count {
-                            completion(currentPin, array_photo_URLs, nil)
-                        }
-                        
-                    })
-//                    print("2 - array_URLString2 --> \(array_URLString2)")
+                        getPhotoURL(photoID: $0.id, secret: $0.secret, completion: { (urlString, error) in
+                            guard let urlString = urlString else {return}
+                            array_URLString2.append(urlString)
+                            array_photo_URLs.append(URL(string: urlString)!)
+                            count = count + 1
+                            if count == temp.photos.photo.count {
+                                completion(currentPin, array_photo_URLs, nil)
+                            }
+                        })
+                    }
+                } else {
+                    completion(currentPin, [], nil)
                 }
                 
-                completion(currentPin, [], nil)
-                return
-                    
-                    
-                    print("3 - array_URLString2 --> \(array_URLString2)")
+                //                temp.photos.photo.forEach{
+                //                    let tempDict = [$0.id : $0.secret]
+                //                    array_photoID_secret.append(tempDict)
+                //
+                //                    let photoURL = FlickrClient.Endpoints.getOnePicture($0.id, $0.secret)
+                //                    let photoURLString = photoURL.toString
+                //                    array_URLString.append(photoURLString)
+                //
+                //                    getPhotoURL(photoID: $0.id, secret: $0.secret, completion: { (urlString, error) in
+                //                        guard let urlString = urlString else {return}
+                //                        array_URLString2.append(urlString)
+                //                        array_photo_URLs.append(URL(string: urlString)!)
+                //                        count = count + 1
+                //                        if count == temp.photos.photo.count {
+                //                            completion(currentPin, array_photo_URLs, nil)
+                //                        }
+                //                    })
+                //                }
+                //                completion(currentPin, [], nil)
+                //                return
             } catch let conversionErr {
                 DispatchQueue.main.async {
                     completion(currentPin, [], conversionErr)
@@ -115,9 +125,7 @@ class FlickrClient {
                 return
             }
         }
-        print("4 - array_URLString2 --> \(array_URLString2)")
         task.resume()
-        print("5 - array_URLString2 --> \(array_URLString2)")
         return task
     }
     
@@ -147,4 +155,63 @@ class FlickrClient {
         }
         task.resume()
     }
+    
+    
+    
+    
+    class func getAllPhotoURLs2(currentPin: Pin, fetchCount count: Int, completion: @escaping (Pin, [URL], Error?)->Void)-> URLSessionTask?{
+        let latitude = currentPin.latitude
+        let longitude = currentPin.longitude
+        let pageNumber = currentPin.pageNumber
+        
+        
+        let url = Endpoints.photosSearch(latitude, longitude, count, pageNumber).url
+        
+        var array_photo_URLs = [URL]()
+        var array_photoID_secret = [[String: String]]()
+        var array_URLString = [String]()
+        var array_URLString2 = [String]()
+        var count = 0
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let dataObject = data, error == nil else {
+                DispatchQueue.main.async {
+                    completion(currentPin, [], error)
+                }
+                return
+            }
+            
+            do {
+                let temp = try JSONDecoder().decode(PhotosSearch.self, from: dataObject)
+                temp.photos.photo.forEach{
+                    let tempDict = [$0.id : $0.secret]
+                    array_photoID_secret.append(tempDict)
+                    
+                    let photoURL = FlickrClient.Endpoints.getOnePicture($0.id, $0.secret)
+                    let photoURLString = photoURL.toString
+                    array_URLString.append(photoURLString)
+                    
+                    getPhotoURL(photoID: $0.id, secret: $0.secret, completion: { (urlString, error) in
+                        guard let urlString = urlString else {return}
+                        array_URLString2.append(urlString)
+                        array_photo_URLs.append(URL(string: urlString)!)
+                        count = count + 1
+                        if count == temp.photos.photo.count {
+                            completion(currentPin, array_photo_URLs, nil)
+                        }
+                    })
+                }
+                completion(currentPin, [], nil)
+                return
+            } catch let conversionErr {
+                DispatchQueue.main.async {
+                    completion(currentPin, [], conversionErr)
+                }
+                return
+            }
+        }
+        task.resume()
+        return task
+    }
+    
 }

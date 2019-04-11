@@ -43,10 +43,10 @@ extension CollectionMapViewsController {
             print("DELETE")
             removeSelectedPicture()
         } else {
-            print("-- GET NEW PICTURES --")
+//            print("-- GET NEW PICTURES --")
             deleteAllPhotosOnPin(currentPin)
             dataController.viewContext.perform { //1
-                print("handle -3")
+//                print("handle -3")
                 //let pinToAdd = Pin(context: self.dataController.viewContext) //moving above 1 causes pin not drop
                 //It's working in this scenario.  Buggy when adding/inserting pin
                 self.currentPin.pageNumber = self.currentPin.pageNumber + 1
@@ -63,17 +63,21 @@ extension CollectionMapViewsController {
     }
     
     func handleGetAllPhotoURLs(pin: Pin, urls: [URL], error: Error?){
+        print("handleGetAllPhotoURLs ---> urls.count  ---> \(urls.count)")
+
         let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
         if let error = error {
             print("func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
             return
         }
+        
         let pinId = pin.objectID
         backgroundContext.perform {
             let backgroundPin = backgroundContext.object(with: pinId) as! Pin
             backgroundPin.urlCount = Int32(urls.count)
             try? backgroundContext.save()
         }
+        
         for (index, currentURL) in urls.enumerated() {
             URLSession.shared.dataTask(with: currentURL, completionHandler: { (imageData, response, error) in
                 guard let imageData = imageData else {return}
