@@ -187,9 +187,18 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        
         emptyLabel.isHidden = currentPin.urlCount == 0 ? false : true
-        
         setupMapView()
+        setupNavigationMenu()
     }
+    
+    
+    func setupNavigationMenu(){
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Re-Center", style: .done, target: self, action: #selector(handleReCenter))]
+    }
+    
+    @objc func handleReCenter(){
+        myMapView.centerCoordinate = firstAnnotation.coordinate
+    }
+    
 }
