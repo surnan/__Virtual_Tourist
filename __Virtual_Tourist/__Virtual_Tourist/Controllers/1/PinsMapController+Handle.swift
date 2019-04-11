@@ -17,7 +17,6 @@ extension PinsMapController {
     }
     
     @objc func handleDeleteAllButton(_ sender: UIButton){
-        
         if mapView.annotations.isEmpty {
             let myAlertController = UIAlertController(title: "Delete All Pins Cancelled", message: "No Pins on Map to Delete", preferredStyle: .alert)
             myAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
