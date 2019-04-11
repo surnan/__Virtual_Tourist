@@ -39,6 +39,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     let reuseIDCellLoaded = "reuseIDCellLoaded"
     let reuseIDCellIsSelected = "reuseIDCellIsSelected"
     var fetchedResultsController: NSFetchedResultsController<Photo>!
+    let mapRegionDistanceValue: CLLocationDistance = 1500
     
     
     //MARK:- Local Variables
@@ -109,6 +110,12 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         map.showsCompass = true //not working on simulator
         map.translatesAutoresizingMaskIntoConstraints = false
         return map
+    }()
+    
+    lazy var firstAnnotation: MKPointAnnotation = {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = currentPin.coordinate
+        return annotation
     }()
     
     var emptyLabel: UILabel = {
@@ -182,5 +189,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         emptyLabel.isHidden = currentPin.urlCount == 0 ? false : true
+        
+        setupMapView()
     }
 }
