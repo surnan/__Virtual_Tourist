@@ -25,11 +25,6 @@ extension CollectionMapViewsController {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //Using 'currentPin.urlCount' in case returned photos is between 0 and 25
-        
-        if currentPin.urlCount != 0 {
-            activityView.stopAnimating()
-        }
-        
         return Int(currentPin.urlCount)
     }
     

@@ -65,6 +65,16 @@ extension CollectionMapViewsController {
     func handleGetAllPhotoURLs(pin: Pin, urls: [URL], error: Error?){
         print("handleGetAllPhotoURLs ---> urls.count  ---> \(urls.count)")
 
+        DispatchQueue.main.async {
+            self.activityView.stopAnimating()
+            
+            if urls.isEmpty {
+                print("SHOW EMPTY MESSAGE LABEL")
+            }
+        }
+        
+        
+        
         let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
         if let error = error {
             print("func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
