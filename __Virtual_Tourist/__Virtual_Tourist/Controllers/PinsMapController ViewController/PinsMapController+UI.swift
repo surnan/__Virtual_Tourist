@@ -11,7 +11,7 @@ import UIKit
 
 extension PinsMapController {
     
-    func setupNavigationBar(){
+    private func setupNavigationBar(){
         navigationItem.title = "Virtual Tourist"
         let editDoneButton: UIButton = {
             let button = UIButton()
@@ -35,7 +35,7 @@ extension PinsMapController {
     }
     
 
-    func setupUI(){
+    private func setupUI(){
         setupNavigationBar()
         [mapView, deletionLabel].forEach{view.addSubview($0)}
         mapView.anchor(top: nil, leading: deletionLabel.leadingAnchor, trailing: deletionLabel.trailingAnchor, bottom: nil)
@@ -55,14 +55,14 @@ extension PinsMapController {
                        completion: nil)
     }
     
-    func resetConstraintsOnBottomLabel(){
+    private func resetConstraintsOnBottomLabel(){
         anchorMapTop_SafeAreaTop?.isActive = false
         anchorMapTop_ShiftMapToShowDeletionLabel?.isActive = false
         anchorMapBottom_ViewBottom?.isActive = false
         anchorMapBottom_ShiftMapToShowDeletionLabel?.isActive = false
     }
     
-    func hideBottomlabel(){ //ViewDidLoad
+    private func hideBottomlabel(){ //ViewDidLoad
         resetConstraintsOnBottomLabel()
         anchorMapTop_SafeAreaTop?.isActive = true
         anchorMapBottom_ViewBottom?.isActive = true
@@ -70,7 +70,7 @@ extension PinsMapController {
     }
     
     //Called by: func toggleBottomUILabel(show: Bool){..}
-    func showBottomlabel(){
+    private func showBottomlabel(){
         resetConstraintsOnBottomLabel()
         anchorMapTop_ShiftMapToShowDeletionLabel?.isActive = true
         anchorMapBottom_ShiftMapToShowDeletionLabel?.isActive = true
@@ -92,23 +92,14 @@ extension PinsMapController {
         }
     }
 
-    func getAllPins()->[Pin]{
+    private func getAllPins()->[Pin]{
         return myFetchController.fetchedObjects ?? []
     }
     
-    func placeAnnotation(pin: Pin?) {
+    private func placeAnnotation(pin: Pin?) {
         guard let lat = pin?.latitude, let lon = pin?.longitude else {return}
         let myNewAnnotation = CustomAnnotation(lat: lat, lon: lon)
         mapView.addAnnotation(myNewAnnotation)
     }
 }
 
-
-/*
- //    @objc func handleReCenter(){
- //        let myCoord = CLLocationCoordinate2D(latitude: 40.20207864088219, longitude: -95.26754605676328)
- //        let span = MKCoordinateSpan(latitudeDelta: 70.0, longitudeDelta: 70.0)
- //        let region = MKCoordinateRegion(center: myCoord, span: span)
- //        mapView.setRegion(region, animated: false)
- //    }
- */

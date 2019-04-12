@@ -12,7 +12,7 @@ import CoreData
 
 extension CollectionMapViewsController {
     
-    func removeSelectedPicture() {
+    private func removeSelectedPicture() {
         //Need to make CoreData changes to update currentPin.urlCount before changing array
         let context = dataController.viewContext
         var newIndex: Int32 = 0
@@ -80,7 +80,6 @@ extension CollectionMapViewsController {
                 self.emptyLabel.isHidden = true
             }
         }
-        
         let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
         if let error = error {
             print("func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
@@ -88,10 +87,8 @@ extension CollectionMapViewsController {
             let errorAlertController = UIAlertController(title: "Network Error", message: "Unable to download photos", preferredStyle: .alert)
             errorAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(errorAlertController, animated: true)
-            
             return
         }
-        
         let pinId = pin.objectID
         backgroundContext.perform {
             let backgroundPin = backgroundContext.object(with: pinId) as! Pin
@@ -105,7 +102,6 @@ extension CollectionMapViewsController {
                 print("Full Error Details: \(saveErr)")
             }
         }
-        
         for (index, currentURL) in urls.enumerated() {
             URLSession.shared.dataTask(with: currentURL, completionHandler: { (imageData, response, error) in
                 guard let imageData = imageData else {return}
@@ -114,21 +110,18 @@ extension CollectionMapViewsController {
         }
     }
     
-    func deleteAllPhotosOnPin(_ pinToChange: Pin) {
+    private func deleteAllPhotosOnPin(_ pinToChange: Pin) {
         let fetch111 = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
         fetch111.predicate = NSPredicate(format: "pin = %@", argumentArray: [pinToChange])
         let request = NSBatchDeleteRequest(fetchRequest: fetch111)
-        
         do {
             _ = try self.dataController.backGroundContext.execute(request)
         } catch let saveErr {
             print("Error: Core Data Save Error when deleting All Photos on Pin.  deleteAllPhotosOnPin(...)\nCode: \(saveErr.localizedDescription)")
             print("Full Error Details: \(saveErr)")
         }
-        
         currentPin.urlCount = 0
         currentPin.photoCount = 0
-        
         do {
             try self.dataController.viewContext.save()
         } catch let saveErr {

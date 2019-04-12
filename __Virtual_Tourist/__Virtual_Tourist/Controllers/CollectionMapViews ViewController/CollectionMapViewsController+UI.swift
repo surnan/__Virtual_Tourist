@@ -19,7 +19,7 @@ extension CollectionMapViewsController {
         setupUI()
         
         let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(userLoggedIn), name: Notification.Name("UserLoggedIn"), object: nil)
+        nc.addObserver(self, selector: #selector(pinDownloadNetworkRequestCompleteObserver), name: Notification.Name("pinDownloadNetworkRequestCompleteObserver"), object: nil)
         
         if (currentPin.urlCount == 0){
             activityView.startAnimating()
@@ -27,13 +27,10 @@ extension CollectionMapViewsController {
         }
     }
     
-    @objc func userLoggedIn(){
+    @objc private func pinDownloadNetworkRequestCompleteObserver(){
         print("notification received")
         activityView.stopAnimating()
     }
-    
-    
-    
     
     func loadCollectionArray(){
         photosArrayFetchCount.removeAll()
@@ -44,9 +41,7 @@ extension CollectionMapViewsController {
         let sortDescriptor = NSSortDescriptor(key: "index", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        
         var results: [Photo]?
-        
         do {
             results = try dataController.backGroundContext.fetch(fetchRequest)
             guard let _results = results else {
@@ -63,7 +58,7 @@ extension CollectionMapViewsController {
         }
     }
     
-    func setupUI(){
+    private func setupUI(){
         [myMapView, myCollectionView, newLocationButton, activityView, screenBottomFiller, emptyLabel, buttonBlockLabelView].forEach{view.addSubview($0)}
         let safe = view.safeAreaLayoutGuide
         myMapView.anchor(top: safe.topAnchor, leading: safe.leadingAnchor, trailing: safe.trailingAnchor)
@@ -79,30 +74,40 @@ extension CollectionMapViewsController {
         emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
-        if !currentPin.isDownloading {
-            emptyLabel.isHidden = currentPin.urlCount == 0 ? false : true
-        }
-        
-        if downloadTask != nil && (downloadTask.state == URLSessionTask.State.running) {
-            activityView.startAnimating()
-            buttonBlockLabelView.isHidden = false
-        }
-
+        hideEmptyLabelWhileDownloading()
+        showActivityViewWhileDownloadingPins()
         setupMapView()
         setupNavigationMenu()
     }
     
     
-    func setupNavigationMenu(){
+    private func hideEmptyLabelWhileDownloading(){
+        //If there are no CollectionViewCells but network request to download pins is still active
+        //don't show empty message label
+        if !currentPin.isDownloading {
+            emptyLabel.isHidden = currentPin.urlCount == 0 ? false : true
+        }
+    }
+    
+    private func showActivityViewWhileDownloadingPins(){
+        //If network request to download pins is active, start ActivityView.
+        //The activity view will be stopped via Notification Center
+        if downloadTask != nil && (downloadTask.state == URLSessionTask.State.running) {
+            activityView.startAnimating()
+            buttonBlockLabelView.isHidden = false
+        }
+    }
+    
+    private func setupNavigationMenu(){
         navigationItem.leftBarButtonItems = [UIBarButtonItem(title: "⏎ OK", style: .done, target: self, action: #selector(handleBack))]
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "noun_Pin_2362323_000000"), style: .plain, target: self, action: #selector(handleReCenter))
     }
     
-    @objc func handleReCenter(){
+    @objc private func handleReCenter(){
         myMapView.centerCoordinate = firstAnnotation.coordinate
     }
     
-    @objc func handleBack(){
+    @objc private func handleBack(){
         navigationController?.popViewController(animated: true)
     }
 }

@@ -73,7 +73,7 @@ extension PinsMapController {
         }
     }
     
-    func deleteAllPhotosOnPin(_ pinToChange: Pin) {
+    private func deleteAllPhotosOnPin(_ pinToChange: Pin) {
         let fetch111 = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
         fetch111.predicate = NSPredicate(format: "pin = %@", argumentArray: [pinToChange])
         let request = NSBatchDeleteRequest(fetchRequest: fetch111)
@@ -87,7 +87,7 @@ extension PinsMapController {
         }
     }
     
-    func PushToCollectionViewController(apin: Pin){
+    private func PushToCollectionViewController(apin: Pin){
         let nextController = CollectionMapViewsController()
         nextController.dataController = self.dataController
         nextController.currentPin = apin
@@ -96,7 +96,7 @@ extension PinsMapController {
         navigationController?.pushViewController(nextController, animated: true)
     }
     
-    func getCorrespondingPin(annotation: MKAnnotation) -> Pin?{
+    private func getCorrespondingPin(annotation: MKAnnotation) -> Pin?{
         let location = annotation.coordinate
         let context = dataController.viewContext
         let fetchRequest = NSFetchRequest<Pin>(entityName: "Pin")
@@ -110,7 +110,7 @@ extension PinsMapController {
         }
     }
     
-    func getCorrespondingPin(coordinate: CLLocationCoordinate2D) -> Pin?{
+    private func getCorrespondingPin(coordinate: CLLocationCoordinate2D) -> Pin?{
         let location = coordinate
         let context = dataController.viewContext
         let fetchRequest = NSFetchRequest<Pin>(entityName: "Pin")
@@ -126,7 +126,7 @@ extension PinsMapController {
     
     
     // MARK: - Canceling network task
-    func cancelAllNetworkTask() {
+    private func cancelAllNetworkTask() {
         URLSession.shared.getAllTasks(completionHandler: { (tasks) -> Void in
             for task in tasks {
                 task.cancel()

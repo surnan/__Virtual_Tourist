@@ -18,10 +18,6 @@ extension CollectionMapViewsController {
             self.loadCollectionArray()
             self.myCollectionView.reloadData()
             
-//            if downloadTask.state == URLSessionTask.State.running {
-//                activityView.startAnimating()
-//            }
-            
             if !self.currentPin.isDownloading {
                 self.emptyLabel.isHidden = self.currentPin.urlCount == 0 ? false : true
             }

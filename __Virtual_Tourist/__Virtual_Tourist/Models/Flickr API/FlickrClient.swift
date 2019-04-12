@@ -60,9 +60,7 @@ class FlickrClient {
             pageNumber = pageNumber - 1
         }
         
-        
         let url = Endpoints.photosSearch(latitude, longitude, count, pageNumber).url
-        
         var array_photo_URLs = [URL]()
         var array_photoID_secret = [[String: String]]()
         var array_URLString = [String]()
@@ -76,10 +74,8 @@ class FlickrClient {
                 }
                 return
             }
-            
             do {
                 let temp = try JSONDecoder().decode(PhotosSearch.self, from: dataObject)
-                
                 if temp.photos.photo.isEmpty == false {
                     temp.photos.photo.forEach {
                         let tempDict = [$0.id : $0.secret]
@@ -117,8 +113,7 @@ class FlickrClient {
         return task
     }
     
-    
-    class func getPhotoURL(photoID: String, secret: String, completion: @escaping (String?, Error?)->Void){
+    private class func getPhotoURL(photoID: String, secret: String, completion: @escaping (String?, Error?)->Void){
         let url = Endpoints.getOnePicture(photoID, secret).url
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let dataObject = data, error == nil else {

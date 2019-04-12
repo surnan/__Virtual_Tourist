@@ -45,7 +45,6 @@ extension PinsMapController {
         if sender.state != .ended {
             let touchLocation = sender.location(in: self.mapView)
             let locationCoordinate = self.mapView.convert(touchLocation,toCoordinateFrom: self.mapView)
-
             dataController.viewContext.perform { //1
                 let pinToAdd = Pin(context: self.dataController.viewContext) //moving above 1 and no pin drop
                 pinToAdd.latitude = locationCoordinate.latitude
@@ -53,14 +52,12 @@ extension PinsMapController {
                 pinToAdd.pageNumber = 1
                 pinToAdd.photoCount = 0
                 pinToAdd.isDownloading = true
-                
                 do {
                     try self.dataController.viewContext.save()
                 } catch let saveErr {
                     print("Error: Core Data Save Error when adding New Pin.  handleLongPress(...)\nCode: \(saveErr.localizedDescription)")
                     print("Full Error Details: \(saveErr)")
                 }
-                
                 self.downloadTask = FlickrClient.getAllPhotoURLs(refresh: false, currentPin: pinToAdd, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
             }
         }
@@ -69,7 +66,6 @@ extension PinsMapController {
     
     func handleGetAllPhotoURLs(pin: Pin, urls: [URL], error: Error?){
         if let error = error {
-            
             let errorAlertController = UIAlertController(title: "Network Error", message: "Unable to download photos", preferredStyle: .alert)
             errorAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(errorAlertController, animated: true)
@@ -78,21 +74,14 @@ extension PinsMapController {
             print("...func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
             return
         }
-        
-        
         let nc = NotificationCenter.default
-        nc.post(name: Notification.Name("UserLoggedIn"), object: nil)
-        
-        
-        
+        nc.post(name: Notification.Name("pinDownloadNetworkRequestCompleteObserver"), object: nil)
         let pinId = pin.objectID
         let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
-        
         backgroundContext.perform {
             let backgroundPin = backgroundContext.object(with: pinId) as! Pin
             backgroundPin.isDownloading = false
             backgroundPin.urlCount = Int32(urls.count)
-
             do {
                 try backgroundContext.save()
             } catch let saveErr {
@@ -100,7 +89,6 @@ extension PinsMapController {
                 print("Full Error Details: \(saveErr)")
             }
         }
-        
         for (index, currentURL) in urls.enumerated() {
             URLSession.shared.dataTask(with: currentURL, completionHandler: { (imageData, response, error) in
                 guard let imageData = imageData else {return}

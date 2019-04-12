@@ -14,15 +14,12 @@ import CoreData
 extension CollectionMapViewsController {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         if deleteIndexSet.contains(indexPath) {
             deleteIndexSet.remove(indexPath)
         } else {
             deleteIndexSet.insert(indexPath)
         }
-        
         myCollectionView.reloadItems(at: [indexPath]) //To show fade/non-fade effect
-
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -32,14 +29,11 @@ extension CollectionMapViewsController {
             //When network is very slow and still waiting for pin.urlCount, viewDidLoad will auto-start activityView
             activityView.stopAnimating()
         }
-        
         if Int(currentPin.urlCount) == currentPin.photos?.count {
             buttonBlockLabelView.isHidden = true
         } else {
             buttonBlockLabelView.isHidden = false
         }
-        
-        
         return Int(currentPin.urlCount)
     }
     
@@ -50,13 +44,11 @@ extension CollectionMapViewsController {
             cell.myPhoto = photosArrayFetchCount[indexPath.row]!
             return cell
         }
-        
         if let photoAtThisCell = photosArrayFetchCount[indexPath.row] {
             let cell = myCollectionView.dequeueReusableCell(withReuseIdentifier: reuseIDCellLoaded, for: indexPath) as! FinalCollectionImageCell
             cell.myPhoto = photoAtThisCell
             return cell
         }
-        
         let cell = myCollectionView.dequeueReusableCell(withReuseIdentifier: reuseIdLoadingCell, for: indexPath) as! FinalCollectionLoadingCell
         return cell
     }
