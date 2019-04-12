@@ -13,12 +13,14 @@ import CoreData
 
 extension CollectionMapViewsController {
     func refreshCollectionView() {
-
         DispatchQueue.main.async {
             self.deleteIndexSet.removeAll()
             self.loadCollectionArray()
             self.myCollectionView.reloadData()
-            print("")
+            
+            if !self.currentPin.isDownloading {
+                self.emptyLabel.isHidden = self.currentPin.urlCount == 0 ? false : true
+            }
         }
     }
 }

@@ -59,6 +59,7 @@ extension PinsMapController {
                 pinToAdd.longitude = locationCoordinate.longitude
                 pinToAdd.pageNumber = 1
                 pinToAdd.photoCount = 0
+                pinToAdd.isDownloading = true
                 try? self.dataController.viewContext.save()
                 self.taskToGetPhotoURLs = FlickrClient.getAllPhotoURLs(currentPin: pinToAdd, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
             }
@@ -81,6 +82,7 @@ extension PinsMapController {
         
         backgroundContext.perform {
             let backgroundPin = backgroundContext.object(with: pinId) as! Pin
+            backgroundPin.isDownloading = false
             backgroundPin.urlCount = Int32(urls.count)
             try? backgroundContext.save()
         }
@@ -92,9 +94,4 @@ extension PinsMapController {
             }).resume()
         }
     }
-    
-    
-    
-    
-    
 }

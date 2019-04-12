@@ -52,6 +52,7 @@ extension CollectionMapViewsController {
                 //It's working in this scenario.  Buggy when adding/inserting pin
                 self.currentPin.pageNumber = self.currentPin.pageNumber + 1
                 self.currentPin.photoCount = 0
+                self.currentPin.isDownloading = true
                 try? self.dataController.viewContext.save()
                 
                 DispatchQueue.main.async {
@@ -89,6 +90,7 @@ extension CollectionMapViewsController {
         backgroundContext.perform {
             let backgroundPin = backgroundContext.object(with: pinId) as! Pin
             backgroundPin.urlCount = Int32(urls.count)
+            backgroundPin.isDownloading = false
             try? backgroundContext.save()
         }
         

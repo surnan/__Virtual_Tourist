@@ -177,7 +177,13 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        emptyLabel.isHidden = currentPin.urlCount == 0 ? false : true
+        
+        if !currentPin.isDownloading {
+            emptyLabel.isHidden = currentPin.urlCount == 0 ? false : true
+        }
+        
+        
+        
         setupMapView()
         setupNavigationMenu()
     }
