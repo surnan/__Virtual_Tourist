@@ -80,7 +80,7 @@ extension CollectionMapViewsController {
         
         // if downloadTask.state.rawValue
         
-        if downloadTask.state == URLSessionTask.State.running {
+        if downloadTask != nil && (downloadTask.state == URLSessionTask.State.running) {
             activityView.startAnimating()
         }
 

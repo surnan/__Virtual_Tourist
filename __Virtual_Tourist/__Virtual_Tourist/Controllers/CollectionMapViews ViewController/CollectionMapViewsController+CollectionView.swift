@@ -26,6 +26,9 @@ extension CollectionMapViewsController {
         } else {
             deleteIndexSet.insert(indexPath)
         }
+        
+        myCollectionView.reloadItems(at: [indexPath]) //To show fade/non-fade effect
+
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
