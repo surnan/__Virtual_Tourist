@@ -23,6 +23,7 @@ extension PinsMapController {
             previousPinID = getCorrespondingPin(annotation: currentAnnotation)?.objectID
         case .ending:
             view.dragState = .none
+            cancelAllNetworkTask()
             if let view = view as? MKPinAnnotationView {
                 view.pinTintColor = UIColor.black
             }
@@ -121,4 +122,16 @@ extension PinsMapController {
             return nil
         }
     }
+    
+    
+    // MARK: - Canceling network task
+    func cancelAllNetworkTask() {
+        URLSession.shared.getAllTasks(completionHandler: { (tasks) -> Void in
+            for task in tasks {
+                task.cancel()
+            }
+        })
+    }
+    
+    
 }

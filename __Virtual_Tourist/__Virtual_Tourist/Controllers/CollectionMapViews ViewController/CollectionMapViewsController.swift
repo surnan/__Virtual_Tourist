@@ -27,8 +27,8 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     let reuseIdLoadingCell = "reuseIdLoadingCell"
     let reuseIDCellLoaded = "reuseIDCellLoaded"
     let reuseIDCellIsSelected = "reuseIDCellIsSelected"
-    let mapRegionDistanceValue: CLLocationDistance = 1500
-    let columnWidth: CGFloat = 10;
+    let mapRegionDistanceValue: CLLocationDistance = 2500
+    let columnWidth: CGFloat = 10
     let rowHeight: CGFloat = 10
     
     //MARK:- Local Variables

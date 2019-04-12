@@ -105,7 +105,6 @@ extension PinsMapController {
 
 
 /*
- 
  //    @objc func handleReCenter(){
  //        let myCoord = CLLocationCoordinate2D(latitude: 40.20207864088219, longitude: -95.26754605676328)
  //        let span = MKCoordinateSpan(latitudeDelta: 70.0, longitudeDelta: 70.0)

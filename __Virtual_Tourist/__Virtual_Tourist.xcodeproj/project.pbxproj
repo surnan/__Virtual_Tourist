@@ -174,13 +174,13 @@
 		84E0DC60225A6A090018A8D5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				84FDC5D6225A72E7009323EA /* 1 */,
-				84FDC5D7225A72EB009323EA /* 2 */,
+				84FDC5D6225A72E7009323EA /* PinsMapController ViewController */,
+				84FDC5D7225A72EB009323EA /* CollectionMapViews ViewController */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		84FDC5D6225A72E7009323EA /* 1 */ = {
+		84FDC5D6225A72E7009323EA /* PinsMapController ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				8453DEE3225A76EB00B2F515 /* Custom Pin Class */,
@@ -190,10 +190,10 @@
 				84FDC5D8225A7390009323EA /* PinsMapController+UI.swift */,
 				8453DEF0225A846E00B2F515 /* PinsMapController+MapKit.swift */,
 			);
-			path = 1;
+			path = "PinsMapController ViewController";
 			sourceTree = "<group>";
 		};
-		84FDC5D7225A72EB009323EA /* 2 */ = {
+		84FDC5D7225A72EB009323EA /* CollectionMapViews ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				8453DEFE225BCF4100B2F515 /* Collection_Cells */,
@@ -205,7 +205,7 @@
 				8453DF05225BD0D300B2F515 /* CollectionMapViewsController+MapKit.swift */,
 				8453DF07225BD10400B2F515 /* CollectionMapViewsController+Protocol.swift */,
 			);
-			path = 2;
+			path = "CollectionMapViews ViewController";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
