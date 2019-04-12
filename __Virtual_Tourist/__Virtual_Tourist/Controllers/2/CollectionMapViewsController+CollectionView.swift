@@ -14,7 +14,6 @@ import CoreData
 extension CollectionMapViewsController {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Selected Cell = \(indexPath)")
         if deleteIndexSet.contains(indexPath) {
             deleteIndexSet.remove(indexPath)
         } else {
@@ -24,12 +23,11 @@ extension CollectionMapViewsController {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //Using 'currentPin.urlCount' in case returned photos is between 0 and 25
+        //Using 'currentPin.urlCount' in case photos are still downloading pin.photoCount is still increasing
         return Int(currentPin.urlCount)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    
         //crash if clicking on cell while cell is Loading State
         if deleteIndexSet.contains(indexPath) {
             let cell = myCollectionView.dequeueReusableCell(withReuseIdentifier: reuseIDCellIsSelected, for: indexPath) as! FinalCollectionSelectedImageCell

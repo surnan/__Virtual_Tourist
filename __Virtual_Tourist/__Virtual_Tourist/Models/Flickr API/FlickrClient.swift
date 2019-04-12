@@ -13,7 +13,7 @@ class FlickrClient {
     
     private enum Endpoints {
         static let base = "https://api.flickr.com/services/rest/?"
-        case photosSearch(Double, Double, Int, Int32)   //Int32 because it's from core data and no need to convert types
+        case photosSearch(Double, Double, Int, Int32)   //Int32 because Int isn't CoreData type
         case getOnePicture(String , String)
         case getPhotosGetSizes(String)
         case photoDownloadURL()

@@ -24,7 +24,7 @@ class DataController {
         backGroundContext = persistentContainer.newBackgroundContext()
         viewContext.automaticallyMergesChangesFromParent = true
         backGroundContext.automaticallyMergesChangesFromParent = true
-        backGroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump    //background gets priority @ conflict
+        backGroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump    //priority
         viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
     }
     
@@ -35,6 +35,6 @@ class DataController {
             }
         }
         self.configureContexts()
-        completion?() //Show loading screen while core data loads
+        completion?() //Chance to Show loading screen while core data loads
     }
 }

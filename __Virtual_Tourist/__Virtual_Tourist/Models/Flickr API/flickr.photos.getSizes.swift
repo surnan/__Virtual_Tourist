@@ -8,7 +8,6 @@
 
 import Foundation
 
-//struct PhotosGetInfo: Codable
 struct PhotosGetSizes: Codable {
     let sizes: Sizes
     let stat: String

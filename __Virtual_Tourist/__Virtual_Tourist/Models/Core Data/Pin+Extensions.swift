@@ -57,7 +57,6 @@ func connectPhotoAndPin(dataController: DataController, currentPin: Pin, data: D
         tempPhoto.index = Int32(index) //Random value for init
         tempPhoto.pin = backgroundPin
         tempPhoto.isLoaded = true
-        //        let testImage = UIImage(data: tempPhoto.imageData!)
         try? backgroundContext.save()
     }
 }

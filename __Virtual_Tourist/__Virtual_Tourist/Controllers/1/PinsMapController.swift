@@ -12,24 +12,18 @@ import CoreData
 
 class PinsMapController: UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate {
     
+    //MARK:- Injections from AppDelegate
+    var dataController: DataController!     //injected from AppDelegate
+    
     //MARK:- UI Constraints - CONSTANTS
     let bottomUILabelHeight: CGFloat = 70
     let defaultTitleFontSize: CGFloat = 22
-
     
     //MARK:- UI Constraints - DYNAMIC
     var anchorMapTop_SafeAreaTop: NSLayoutConstraint?
     var anchorMapTop_ShiftMapToShowDeletionLabel: NSLayoutConstraint?
     var anchorMapBottom_ViewBottom: NSLayoutConstraint?
     var anchorMapBottom_ShiftMapToShowDeletionLabel: NSLayoutConstraint?
-    
-    //MARK:- Gestures
-    lazy var myLongPressGesture: UILongPressGestureRecognizer = {
-        var longGesture = UILongPressGestureRecognizer()
-        longGesture.minimumPressDuration = 1
-        longGesture.addTarget(self, action: #selector(handleLongPress(_:)))
-        return longGesture
-    }()
     
     //MARK:- UI
     lazy var deletionLabel: UILabel = {
@@ -45,14 +39,19 @@ class PinsMapController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         return label
     }()
     
-    var tapDeletesPin = false               //determines if deletionLabel is shown in UI
+    //MARK:- Gestures
+    lazy var myLongPressGesture: UILongPressGestureRecognizer = {
+        var longGesture = UILongPressGestureRecognizer()
+        longGesture.minimumPressDuration = 1
+        longGesture.addTarget(self, action: #selector(handleLongPress(_:)))
+        return longGesture
+    }()
+    
     var mapView = MKMapView()
+    var tapDeletesPin = false               //determines if deletionLabel is shown in UI
     
     var myFetchController: NSFetchedResultsController<Pin>!
-    var dataController: DataController!     //injected from AppDelegate
-    var previousPinID: NSManagedObjectID?   //so we can retreive object prior to changing coordinates for move
-    
+    var previousPinID: NSManagedObjectID?   //To retreive object prior to changing Pin.coordinates
     var delegate: CollectionMapViewControllerDelegate?
-    var taskToGetPhotoURLs: URLSessionTask?
 }
 

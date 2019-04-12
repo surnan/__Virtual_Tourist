@@ -10,6 +10,7 @@ import MapKit
 import UIKit
 
 extension PinsMapController {
+    
     func setupNavigationBar(){
         navigationItem.title = "Virtual Tourist"
         let editDoneButton: UIButton = {
@@ -24,19 +25,21 @@ extension PinsMapController {
             return button
         }()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editDoneButton)
-        
         let imageIcon = #imageLiteral(resourceName: "delete_84").withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
-        navigationItem.leftBarButtonItems = [UIBarButtonItem(image: imageIcon, landscapeImagePhone: imageIcon, style: .done,
-                                                           target: self, action: #selector(handleDeleteAllButton)),
-                                             UIBarButtonItem(image: #imageLiteral(resourceName: "noun_Pin_2362323_000000"), landscapeImagePhone: imageIcon, style: .done,
-                                                             target: self, action: #selector(handleReCenter))]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editDoneButton)
+        navigationItem.leftBarButtonItems = [UIBarButtonItem(image: imageIcon,
+                                                             landscapeImagePhone: imageIcon,
+                                                             style: .done,
+                                                             target: self,
+                                                             action: #selector(handleDeleteAllButton)),
+                                             UIBarButtonItem(image: #imageLiteral(resourceName: "noun_Pin_2362323_000000"),
+                                                             landscapeImagePhone: imageIcon,
+                                                             style: .done,
+                                                             target: self,
+                                                             action: #selector(handleReCenter))]
     }
     
 
-    
-    
-    
     func setupUI(){
         setupNavigationBar()
         [mapView, deletionLabel].forEach{view.addSubview($0)}

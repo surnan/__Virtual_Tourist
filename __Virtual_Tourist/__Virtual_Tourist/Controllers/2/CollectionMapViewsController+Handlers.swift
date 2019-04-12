@@ -40,16 +40,10 @@ extension CollectionMapViewsController {
     
     @objc func handleNewLocationButton(_ sender: UIButton){
         if sender.isSelected {
-            print("DELETE")
             removeSelectedPicture()
         } else {
-            
-//            print("-- GET NEW PICTURES --")
             deleteAllPhotosOnPin(currentPin)
             dataController.viewContext.perform { //1
-//                print("handle -3")
-                //let pinToAdd = Pin(context: self.dataController.viewContext) //moving above 1 causes pin not drop
-                //It's working in this scenario.  Buggy when adding/inserting pin
                 self.currentPin.pageNumber = self.currentPin.pageNumber + 1
                 self.currentPin.photoCount = 0
                 self.currentPin.isDownloading = true
@@ -66,19 +60,14 @@ extension CollectionMapViewsController {
     }
     
     func handleGetAllPhotoURLs(pin: Pin, urls: [URL], error: Error?){
-        print("handleGetAllPhotoURLs ---> urls.count  ---> \(urls.count)")
         DispatchQueue.main.async {
             self.activityView.stopAnimating()
-            print("urls.isEmpty ----> \(urls.isEmpty)")
-            
             if urls.isEmpty {
                 self.emptyLabel.isHidden = false
             } else {
                 self.emptyLabel.isHidden = true
             }
         }
-        
-        
         
         let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
         if let error = error {
