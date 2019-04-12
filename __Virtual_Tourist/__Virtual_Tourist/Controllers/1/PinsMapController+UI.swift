@@ -31,12 +31,7 @@ extension PinsMapController {
                                                              landscapeImagePhone: imageIcon,
                                                              style: .done,
                                                              target: self,
-                                                             action: #selector(handleDeleteAllButton)),
-                                             UIBarButtonItem(image: #imageLiteral(resourceName: "noun_Pin_2362323_000000"),
-                                                             landscapeImagePhone: imageIcon,
-                                                             style: .done,
-                                                             target: self,
-                                                             action: #selector(handleReCenter))]
+                                                             action: #selector(handleDeleteAllButton))]
     }
     
 
@@ -96,15 +91,7 @@ extension PinsMapController {
             placeAnnotation(pin: $0)
         }
     }
-    
-    @objc func handleReCenter(){
-        let myCoord = CLLocationCoordinate2D(latitude: 40.20207864088219, longitude: -95.26754605676328)
-        let span = MKCoordinateSpan(latitudeDelta: 70.0, longitudeDelta: 70.0)
-        let region = MKCoordinateRegion(center: myCoord, span: span)
-        mapView.setRegion(region, animated: false)
-    }
 
-    
     func getAllPins()->[Pin]{
         return myFetchController.fetchedObjects ?? []
     }
@@ -115,3 +102,14 @@ extension PinsMapController {
         mapView.addAnnotation(myNewAnnotation)
     }
 }
+
+
+/*
+ 
+ //    @objc func handleReCenter(){
+ //        let myCoord = CLLocationCoordinate2D(latitude: 40.20207864088219, longitude: -95.26754605676328)
+ //        let span = MKCoordinateSpan(latitudeDelta: 70.0, longitudeDelta: 70.0)
+ //        let region = MKCoordinateRegion(center: myCoord, span: span)
+ //        mapView.setRegion(region, animated: false)
+ //    }
+ */
