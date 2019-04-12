@@ -17,7 +17,19 @@ extension CollectionMapViewsController {
         setupFetchedResultsController()
         loadCollectionArray()
         setupUI()
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(userLoggedIn), name: Notification.Name("UserLoggedIn"), object: nil)
+        
     }
+    
+    @objc func userLoggedIn(){
+        print("notification received")
+        activityView.stopAnimating()
+    }
+    
+    
+    
     
     func loadCollectionArray(){
         photosArrayFetchCount.removeAll()

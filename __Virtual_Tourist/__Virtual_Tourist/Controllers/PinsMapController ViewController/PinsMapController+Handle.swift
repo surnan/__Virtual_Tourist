@@ -74,6 +74,12 @@ extension PinsMapController {
             return
         }
         
+        
+        let nc = NotificationCenter.default
+        nc.post(name: Notification.Name("UserLoggedIn"), object: nil)
+        
+        
+        
         let pinId = pin.objectID
         let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
         
