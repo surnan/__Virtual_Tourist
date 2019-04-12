@@ -14,16 +14,28 @@ import CoreData
 extension CollectionMapViewsController {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let photoAtSelection = photosArrayFetchCount[indexPath.item], let _ = photoAtSelection.imageData else {
+            return
+        }
+        
+        
+        
         if deleteIndexSet.contains(indexPath) {
             deleteIndexSet.remove(indexPath)
         } else {
             deleteIndexSet.insert(indexPath)
         }
-        myCollectionView.reloadItems(at: [indexPath])
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //Using 'currentPin.urlCount' in case photos are still downloading pin.photoCount is still increasing
+        
+        if currentPin.urlCount != 0 {
+            //When network is very slow and still waiting for pin.urlCount, viewDidLoad will auto-start activityView
+            activityView.stopAnimating()
+        }
+        
         return Int(currentPin.urlCount)
     }
     

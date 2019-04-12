@@ -53,5 +53,6 @@ class PinsMapController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     var myFetchController: NSFetchedResultsController<Pin>!
     var previousPinID: NSManagedObjectID?   //To retreive object prior to changing Pin.coordinates
     var delegate: CollectionMapViewControllerDelegate?
+    var downloadTask: URLSessionTask?
 }
 

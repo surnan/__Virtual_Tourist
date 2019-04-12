@@ -42,7 +42,7 @@ extension PinsMapController {
                     print("Full Error Details: \(saveErr)")
                 }
                 
-                _ = FlickrClient.getAllPhotoURLs(currentPin: pinToChange, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
+                self.downloadTask = FlickrClient.getAllPhotoURLs(currentPin: pinToChange, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
             }
             
             previousPinID = nil
@@ -91,6 +91,7 @@ extension PinsMapController {
         let nextController = CollectionMapViewsController()
         nextController.dataController = self.dataController
         nextController.currentPin = apin
+        nextController.downloadTask = downloadTask
         delegate = nextController
         navigationController?.pushViewController(nextController, animated: true)
     }
@@ -132,6 +133,4 @@ extension PinsMapController {
             }
         })
     }
-    
-    
 }

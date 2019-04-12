@@ -22,6 +22,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     //MARK:- Injected Variables
     var currentPin: Pin!
     var dataController: DataController!
+    var downloadTask: URLSessionTask!
     
     //MARK:- Local Constants
     let reuseIdLoadingCell = "reuseIdLoadingCell"

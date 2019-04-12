@@ -61,7 +61,7 @@ extension PinsMapController {
                     print("Full Error Details: \(saveErr)")
                 }
                 
-                _ = FlickrClient.getAllPhotoURLs(currentPin: pinToAdd, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
+                self.downloadTask = FlickrClient.getAllPhotoURLs(currentPin: pinToAdd, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
             }
         }
     }

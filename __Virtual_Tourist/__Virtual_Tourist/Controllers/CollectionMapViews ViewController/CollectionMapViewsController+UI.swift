@@ -66,6 +66,13 @@ extension CollectionMapViewsController {
             emptyLabel.isHidden = currentPin.urlCount == 0 ? false : true
         }
         
+        // if downloadTask.state.rawValue
+        
+        if downloadTask.state == URLSessionTask.State.running {
+            activityView.startAnimating()
+        }
+
+        
         setupMapView()
         setupNavigationMenu()
     }
