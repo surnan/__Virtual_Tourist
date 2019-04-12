@@ -50,10 +50,16 @@ class FlickrClient {
         }
     }
     
-    class func getAllPhotoURLs(currentPin: Pin, fetchCount count: Int, completion: @escaping (Pin, [URL], Error?)->Void)-> URLSessionTask?{
+    class func getAllPhotoURLs(refresh: Bool, currentPin: Pin, fetchCount count: Int, completion: @escaping (Pin, [URL], Error?)->Void)-> URLSessionTask?{
         let latitude = currentPin.latitude
         let longitude = currentPin.longitude
-        let pageNumber = currentPin.pageNumber
+        var pageNumber = currentPin.pageNumber
+        
+        //refresh means to call the same page.  Not the page+1 that is saved to currentPin
+        if refresh {
+            pageNumber = pageNumber - 1
+        }
+        
         
         let url = Endpoints.photosSearch(latitude, longitude, count, pageNumber).url
         

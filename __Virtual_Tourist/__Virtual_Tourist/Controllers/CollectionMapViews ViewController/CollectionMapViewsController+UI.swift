@@ -21,6 +21,10 @@ extension CollectionMapViewsController {
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(userLoggedIn), name: Notification.Name("UserLoggedIn"), object: nil)
         
+        if (currentPin.urlCount == 0){
+            activityView.startAnimating()
+            _ = FlickrClient.getAllPhotoURLs(refresh: true, currentPin: self.currentPin, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
+        }
     }
     
     @objc func userLoggedIn(){

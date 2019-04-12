@@ -66,7 +66,7 @@ extension CollectionMapViewsController {
                     self.activityView.startAnimating()
                 }
                 
-                _ = FlickrClient.getAllPhotoURLs(currentPin: self.currentPin, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
+                _ = FlickrClient.getAllPhotoURLs(refresh: false, currentPin: self.currentPin, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
             }
         }
     }

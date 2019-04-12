@@ -42,7 +42,7 @@ extension PinsMapController {
                     print("Full Error Details: \(saveErr)")
                 }
                 
-                self.downloadTask = FlickrClient.getAllPhotoURLs(currentPin: pinToChange, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
+                self.downloadTask = FlickrClient.getAllPhotoURLs(refresh: false, currentPin: pinToChange, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
             }
             
             previousPinID = nil
