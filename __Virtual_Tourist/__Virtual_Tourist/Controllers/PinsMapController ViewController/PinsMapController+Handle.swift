@@ -69,6 +69,11 @@ extension PinsMapController {
     
     func handleGetAllPhotoURLs(pin: Pin, urls: [URL], error: Error?){
         if let error = error {
+            
+            let errorAlertController = UIAlertController(title: "Network Error", message: "Unable to download photos", preferredStyle: .alert)
+            errorAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(errorAlertController, animated: true)
+            
             print("error.localizedDescription --> \(error.localizedDescription)")
             print("...func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
             return

@@ -84,6 +84,11 @@ extension CollectionMapViewsController {
         let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
         if let error = error {
             print("func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
+            
+            let errorAlertController = UIAlertController(title: "Network Error", message: "Unable to download photos", preferredStyle: .alert)
+            errorAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(errorAlertController, animated: true)
+            
             return
         }
         

@@ -82,7 +82,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         let button = UIButton()
         button.setTitle("New Collection", for: .normal)
         button.backgroundColor = UIColor.clear
-        button.setTitleColor(UIColor.darkBlue, for: .normal)
+        button.setTitleColor(UIColor.blue, for: .normal)
         button.setTitle("Remove Selected Pictures", for: .selected)
         button.setTitleColor(UIColor.red, for: .selected)
         button.addTarget(self, action: #selector(handleNewLocationButton(_:)), for: .touchUpInside)
