@@ -60,13 +60,14 @@ extension CollectionMapViewsController {
     }
     
     func setupUI(){
-        [myMapView, myCollectionView, newLocationButton, activityView, screenBottomFiller, emptyLabel].forEach{view.addSubview($0)}
+        [myMapView, myCollectionView, newLocationButton, activityView, screenBottomFiller, emptyLabel, buttonBlockLabelView].forEach{view.addSubview($0)}
         let safe = view.safeAreaLayoutGuide
         myMapView.anchor(top: safe.topAnchor, leading: safe.leadingAnchor, trailing: safe.trailingAnchor)
         myMapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25).isActive = true
         myCollectionView.anchor(top: myMapView.bottomAnchor, leading: myMapView.leadingAnchor,
                                 trailing: myMapView.trailingAnchor, bottom: newLocationButton.topAnchor)
         newLocationButton.anchor(leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: safe.bottomAnchor)
+        buttonBlockLabelView.anchor(top: newLocationButton.topAnchor ,leading: view.leadingAnchor, trailing: view.trailingAnchor, bottom: safe.bottomAnchor)
         screenBottomFiller.anchor(top: newLocationButton.bottomAnchor, leading: view.leadingAnchor,
                                   trailing: view.trailingAnchor, bottom: view.bottomAnchor)
         activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -78,13 +79,11 @@ extension CollectionMapViewsController {
             emptyLabel.isHidden = currentPin.urlCount == 0 ? false : true
         }
         
-        // if downloadTask.state.rawValue
-        
         if downloadTask != nil && (downloadTask.state == URLSessionTask.State.running) {
             activityView.startAnimating()
+            buttonBlockLabelView.isHidden = false
         }
 
-        
         setupMapView()
         setupNavigationMenu()
     }

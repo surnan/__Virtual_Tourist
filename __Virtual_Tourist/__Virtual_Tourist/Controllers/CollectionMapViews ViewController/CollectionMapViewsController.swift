@@ -46,7 +46,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         //fill bottom of screen to bevel
         //newLocationButton.title will always be above bezel.
         let view = UIView()
-        view.backgroundColor = UIColor.blue
+        view.backgroundColor = UIColor.clear
         return view
     }()
     
@@ -57,6 +57,18 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    var buttonBlockLabelView: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = UIColor.white
+        label.text = "New Collection"
+        label.textColor = UIColor.lightGray
+        label.textAlignment = .center
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     
     var photosArrayFetchCount = [Photo?](repeating: nil, count: fetchCount)
     var deleteIndexSet = Set<IndexPath>() {
@@ -69,8 +81,8 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
     lazy var newLocationButton: UIButton = {
         let button = UIButton()
         button.setTitle("New Collection", for: .normal)
-        button.backgroundColor = UIColor.blue
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.backgroundColor = UIColor.clear
+        button.setTitleColor(UIColor.darkBlue, for: .normal)
         button.setTitle("Remove Selected Pictures", for: .selected)
         button.setTitleColor(UIColor.red, for: .selected)
         button.addTarget(self, action: #selector(handleNewLocationButton(_:)), for: .touchUpInside)

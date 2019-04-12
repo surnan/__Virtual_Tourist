@@ -14,13 +14,7 @@ import CoreData
 extension CollectionMapViewsController {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        guard let photoAtSelection = photosArrayFetchCount[indexPath.item], let _ = photoAtSelection.imageData else {
-            return
-        }
-        
-        
-        
+
         if deleteIndexSet.contains(indexPath) {
             deleteIndexSet.remove(indexPath)
         } else {
@@ -38,6 +32,13 @@ extension CollectionMapViewsController {
             //When network is very slow and still waiting for pin.urlCount, viewDidLoad will auto-start activityView
             activityView.stopAnimating()
         }
+        
+        if Int(currentPin.urlCount) == currentPin.photos?.count {
+            buttonBlockLabelView.isHidden = true
+        } else {
+            buttonBlockLabelView.isHidden = false
+        }
+        
         
         return Int(currentPin.urlCount)
     }
