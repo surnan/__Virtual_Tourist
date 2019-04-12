@@ -8,7 +8,8 @@
 
 import UIKit
 
-
+let API_KEY = "f5963392b48503b5e16b85a3cb31cf31"
+let SECRET_KEY = "c911ea3d3998b21f"
 var fetchCount = 21 //Reset CoreData if changed
 
 
