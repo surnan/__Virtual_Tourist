@@ -33,7 +33,13 @@ extension CollectionMapViewsController {
                     currentContextPhoto.index = newIndex
                     newIndex = newIndex + 1
                 }
-                try? context.save()
+                
+                do {
+                    try context.save()
+                } catch let saveErr {
+                    print("Error: Core Data Save Error when deleting selected picture.  removeSelectedPicture()\nCode: \(saveErr.localizedDescription)")
+                    print("Full Error Details: \(saveErr)")
+                }
             }
         }
     }
@@ -47,7 +53,13 @@ extension CollectionMapViewsController {
                 self.currentPin.pageNumber = self.currentPin.pageNumber + 1
                 self.currentPin.photoCount = 0
                 self.currentPin.isDownloading = true
-                try? self.dataController.viewContext.save()
+                
+                do {
+                    try self.dataController.viewContext.save()
+                } catch let saveErr {
+                    print("Error: Core Data Save Error when reset Pin handleNewLocationButton(...)\nCode: \(saveErr.localizedDescription)")
+                    print("Full Error Details: \(saveErr)")
+                }
                 
                 DispatchQueue.main.async {
                     self.emptyLabel.isHidden = true
@@ -80,7 +92,13 @@ extension CollectionMapViewsController {
             let backgroundPin = backgroundContext.object(with: pinId) as! Pin
             backgroundPin.urlCount = Int32(urls.count)
             backgroundPin.isDownloading = false
-            try? backgroundContext.save()
+            
+            do {
+                try backgroundContext.save()
+            } catch let saveErr {
+                print("Error: Core Data Save Error within handleGetAllPhotoURLs(...)\nCode: \(saveErr.localizedDescription)")
+                print("Full Error Details: \(saveErr)")
+            }
         }
         
         for (index, currentURL) in urls.enumerated() {
@@ -95,9 +113,22 @@ extension CollectionMapViewsController {
         let fetch111 = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
         fetch111.predicate = NSPredicate(format: "pin = %@", argumentArray: [pinToChange])
         let request = NSBatchDeleteRequest(fetchRequest: fetch111)
-        _ = try? self.dataController.backGroundContext.execute(request)
+        
+        do {
+            _ = try self.dataController.backGroundContext.execute(request)
+        } catch let saveErr {
+            print("Error: Core Data Save Error when deleting All Photos on Pin.  deleteAllPhotosOnPin(...)\nCode: \(saveErr.localizedDescription)")
+            print("Full Error Details: \(saveErr)")
+        }
+        
         currentPin.urlCount = 0
         currentPin.photoCount = 0
-        try? self.dataController.viewContext.save()
+        
+        do {
+            try self.dataController.viewContext.save()
+        } catch let saveErr {
+            print("Error: Core Data Save Error when deleting all photos on pin deleteAllPhotosOnPin(...)\nCode: \(saveErr.localizedDescription)")
+            print("Full Error Details: \(saveErr)")
+        }
     }
 }

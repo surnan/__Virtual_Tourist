@@ -25,7 +25,13 @@ extension Pin: MKAnnotation {
         self.photoCount = 0
         self.urlCount = 0
         self.isDownloading = false
-        try? viewContext.save()
+        
+        do {
+            try viewContext.save()
+        } catch let saveErr {
+            print("Error: Core Data Save Error when trying to movePin(...)\nCode: \(saveErr.localizedDescription)")
+            print("Full Error Details: \(saveErr)")
+        }
     }
 
     //Executes at Pin Creation
@@ -57,6 +63,12 @@ func connectPhotoAndPin(dataController: DataController, currentPin: Pin, data: D
         tempPhoto.index = Int32(index) //Random value for init
         tempPhoto.pin = backgroundPin
         tempPhoto.isLoaded = true
-        try? backgroundContext.save()
+        
+        do {
+            try backgroundContext.save()
+        } catch let saveErr {
+            print("Error: Core Data Save Error when connecting Photo to Pin connectPhotoAndPin(...)\nCode: \(saveErr.localizedDescription)")
+            print("Full Error Details: \(saveErr)")
+        }
     }
 }

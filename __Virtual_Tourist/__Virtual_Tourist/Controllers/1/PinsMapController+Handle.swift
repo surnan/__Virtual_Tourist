@@ -53,7 +53,14 @@ extension PinsMapController {
                 pinToAdd.pageNumber = 1
                 pinToAdd.photoCount = 0
                 pinToAdd.isDownloading = true
-                try? self.dataController.viewContext.save()
+                
+                do {
+                    try self.dataController.viewContext.save()
+                } catch let saveErr {
+                    print("Error: Core Data Save Error when adding New Pin.  handleLongPress(...)\nCode: \(saveErr.localizedDescription)")
+                    print("Full Error Details: \(saveErr)")
+                }
+                
                 _ = FlickrClient.getAllPhotoURLs(currentPin: pinToAdd, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
             }
         }
@@ -74,7 +81,13 @@ extension PinsMapController {
             let backgroundPin = backgroundContext.object(with: pinId) as! Pin
             backgroundPin.isDownloading = false
             backgroundPin.urlCount = Int32(urls.count)
-            try? backgroundContext.save()
+
+            do {
+                try backgroundContext.save()
+            } catch let saveErr {
+                print("Error: Core Data Save Error when updating Pin after all photos downloaded.  handleGetAllPhotoURLs(...)\nCode: \(saveErr.localizedDescription)")
+                print("Full Error Details: \(saveErr)")
+            }
         }
         
         for (index, currentURL) in urls.enumerated() {

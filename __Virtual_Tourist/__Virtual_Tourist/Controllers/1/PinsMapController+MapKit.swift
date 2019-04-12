@@ -33,7 +33,14 @@ extension PinsMapController {
             dataController.viewContext.perform { //1
                 pinToChange.pageNumber = 1
                 pinToChange.photoCount = 0
-                try? self.dataController.viewContext.save()
+                
+                do {
+                    try self.dataController.viewContext.save()
+                } catch let saveErr {
+                    print("Error: Core Data Save Error after pin is moved.  mapView(_ mapView: MKMapView(...)\nCode: \(saveErr.localizedDescription)")
+                    print("Full Error Details: \(saveErr)")
+                }
+                
                 _ = FlickrClient.getAllPhotoURLs(currentPin: pinToChange, fetchCount: fetchCount, completion: self.handleGetAllPhotoURLs(pin:urls:error:))
             }
             
@@ -51,7 +58,13 @@ extension PinsMapController {
         if tapDeletesPin {
             dataController.viewContext.perform {
                 self.dataController.viewContext.delete(desiredPin)
-                try? self.dataController.viewContext.save()
+                
+                do {
+                    try self.dataController.viewContext.save()
+                } catch let saveErr {
+                    print("Error: Core Data Save Error when deleting selected annotation/pin.  mapView(_ mapView(...)\nCode: \(saveErr.localizedDescription)")
+                    print("Full Error Details: \(saveErr)")
+                }
                 return
             }
         } else {
@@ -63,8 +76,14 @@ extension PinsMapController {
         let fetch111 = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
         fetch111.predicate = NSPredicate(format: "pin = %@", argumentArray: [pinToChange])
         let request = NSBatchDeleteRequest(fetchRequest: fetch111)
-        _ = try? self.dataController.backGroundContext.execute(request)
-        try? self.dataController.viewContext.save()
+        
+        do {
+            _ = try self.dataController.backGroundContext.execute(request)
+            try self.dataController.viewContext.save()
+        } catch let saveErr {
+            print("Error: Core Data Save Error when deleting All Photos on Pin.  deleteAllPhotosOnPin(...)\nCode: \(saveErr.localizedDescription)")
+            print("Full Error Details: \(saveErr)")
+        }
     }
     
     func PushToCollectionViewController(apin: Pin){

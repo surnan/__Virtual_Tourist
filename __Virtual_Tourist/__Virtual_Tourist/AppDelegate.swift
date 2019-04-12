@@ -62,7 +62,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //MARK:- My functions
     func saveViewContext(){
-        try? dataController.viewContext.save()
+        
+        do {
+            try self.dataController.viewContext.save()
+        } catch let saveErr {
+            print("Error: Core Data Save Error within AppDelegate(...)\nCode: \(saveErr.localizedDescription)")
+            print("Full Error Details: \(saveErr)")
+        }
     }
 }
 

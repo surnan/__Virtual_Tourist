@@ -27,17 +27,25 @@ extension CollectionMapViewsController {
         fetchRequest.predicate = predicate
         let sortDescriptor = NSSortDescriptor(key: "index", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        let results = try? dataController.backGroundContext.fetch(fetchRequest)
-        guard let _results = results else {
-            print("Unable to unwrap 'results'")
-            return
-        }
-        _results.forEach { (currentPhoto) in
-            let destIndex = Int(currentPhoto.index)
-            photosArrayFetchCount[destIndex] = currentPhoto
+        
+        
+        var results: [Photo]?
+        
+        do {
+            results = try dataController.backGroundContext.fetch(fetchRequest)
+            guard let _results = results else {
+                print("Unable to unwrap 'results'")
+                return
+            }
+            _results.forEach { (currentPhoto) in
+                let destIndex = Int(currentPhoto.index)
+                photosArrayFetchCount[destIndex] = currentPhoto
+            }
+        } catch let fetchErr {
+            print("Error fetching photos to load CollectionViewArray  loadCollectionArray()\nCode: \(fetchErr.localizedDescription)")
+            print("Full Error Details: \(fetchErr)")
         }
     }
-    
     
     func setupUI(){
         [myMapView, myCollectionView, newLocationButton, activityView, screenBottomFiller, emptyLabel].forEach{view.addSubview($0)}
