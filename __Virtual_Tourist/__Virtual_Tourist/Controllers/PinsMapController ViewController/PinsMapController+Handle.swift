@@ -18,21 +18,19 @@ extension PinsMapController {
     
     @objc func handleDeleteAllButton(_ sender: UIButton){
         if mapView.annotations.isEmpty {
-            showOKAlertController(title: "Delete All Pins Cancelled", message: "No Pins on Map to Delete")
+            showAlertController(title: "Delete All Pins Cancelled", message: "No Pins on Map to Delete")
         } else {
-            showOKCancelAlertController(title: "Confirmation Needed", message: "Please confirm deletion of all pins", okFunction: self.deleteThePins)
-        }
-    }
-    
-    func deleteThePins(alert: UIAlertAction){
-        mapView.removeAnnotations(mapView.annotations)
-        do {
-            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
-            let request = NSBatchDeleteRequest(fetchRequest: fetch)
-            try dataController.backGroundContext.execute(request)
-            try dataController.backGroundContext.save()
-        } catch {
-            print ("There was an error when trying to delete all Pins on Map")
+            showAlertController(title: "Confirmation Needed", message: "Please confirm deletion of all pins") {[unowned self] (_) in
+                self.mapView.removeAnnotations(self.mapView.annotations)
+                do {
+                    let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Pin")
+                    let request = NSBatchDeleteRequest(fetchRequest: fetch)
+                    try self.dataController.backGroundContext.execute(request)
+                    try self.dataController.backGroundContext.save()
+                } catch {
+                    print ("There was an error when trying to delete all Pins on Map")
+                }
+            }
         }
     }
     
@@ -61,7 +59,7 @@ extension PinsMapController {
     
     func handleGetAllPhotoURLs(pin: Pin, urls: [URL], error: Error?){
         if let error = error {
-            showOKAlertController(title: "Network Error", message: "Unable to download photos")
+            showAlertController(title: "Network Error", message: "Unable to download photos")
             print("error.localizedDescription --> \(error.localizedDescription)")
             print("...func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
             return

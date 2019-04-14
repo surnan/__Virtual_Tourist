@@ -84,7 +84,7 @@ extension CollectionMapViewsController {
         let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
         if let error = error {
             print("func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
-            showOKAlertController(title: "Network Error", message: "Unable to download photos")
+            showAlertController(title: "Network Error", message: "Unable to download photos")
             suppressAlerts = false  //Only need it suppressed when this function runs from ViewDidLoad
             return
         }
