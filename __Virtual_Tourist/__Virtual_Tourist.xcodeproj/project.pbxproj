@@ -26,6 +26,7 @@
 		8453DF0A225BD12500B2F515 /* CollectionMapViewsController+NSFetchedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453DF09225BD12500B2F515 /* CollectionMapViewsController+NSFetchedResults.swift */; };
 		8453DF0C225BD37500B2F515 /* CollectionMapViewsController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453DF0B225BD37500B2F515 /* CollectionMapViewsController+CollectionView.swift */; };
 		8453DF0E225C4C0800B2F515 /* CollectionMapViewsController+Handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8453DF0D225C4C0800B2F515 /* CollectionMapViewsController+Handlers.swift */; };
+		846CEDEA22630372008031F6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846CEDE922630372008031F6 /* UIViewController+Extension.swift */; };
 		849B136A226021530027C451 /* CollectionMapViewsController+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B1369226021530027C451 /* CollectionMapViewsController+UI.swift */; };
 		84E0DC4D225A69B40018A8D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0DC4C225A69B40018A8D5 /* AppDelegate.swift */; };
 		84E0DC67225A6A1A0018A8D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84E0DC61225A6A190018A8D5 /* Assets.xcassets */; };
@@ -57,6 +58,7 @@
 		8453DF09225BD12500B2F515 /* CollectionMapViewsController+NSFetchedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionMapViewsController+NSFetchedResults.swift"; sourceTree = "<group>"; };
 		8453DF0B225BD37500B2F515 /* CollectionMapViewsController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionMapViewsController+CollectionView.swift"; sourceTree = "<group>"; };
 		8453DF0D225C4C0800B2F515 /* CollectionMapViewsController+Handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionMapViewsController+Handlers.swift"; sourceTree = "<group>"; };
+		846CEDE922630372008031F6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		849B1369226021530027C451 /* CollectionMapViewsController+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionMapViewsController+UI.swift"; sourceTree = "<group>"; };
 		84E0DC49225A69B40018A8D5 /* __Virtual_Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = __Virtual_Tourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E0DC4C225A69B40018A8D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				84E0DC62225A6A190018A8D5 /* LaunchScreen.storyboard */,
 				84E0DC63225A6A190018A8D5 /* UIColor+Extension.swift */,
 				84E0DC66225A6A190018A8D5 /* UIView+Extensions.swift */,
+				846CEDE922630372008031F6 /* UIViewController+Extension.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				846CEDEA22630372008031F6 /* UIViewController+Extension.swift in Sources */,
 				8453DEEF225A834E00B2F515 /* PinsMapController+NSFetchedResults.swift in Sources */,
 				849B136A226021530027C451 /* CollectionMapViewsController+UI.swift in Sources */,
 				8453DF04225BCF7200B2F515 /* FinalCollectionImageCell.swift in Sources */,

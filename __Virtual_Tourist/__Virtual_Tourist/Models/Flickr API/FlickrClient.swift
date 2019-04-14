@@ -16,7 +16,6 @@ class FlickrClient {
         case photosSearch(Double, Double, Int, Int32)   //Int32 because Int isn't CoreData type
         case getOnePicture(String , String)
         case getPhotosGetSizes(String)
-        case photoDownloadURL()
         
         var toString: String {
             switch self {
@@ -42,7 +41,6 @@ class FlickrClient {
                 + "&photo_id=\(photo_id)"
                 + "&format=json"
                 + "&nojsoncallback=1"
-            case .photoDownloadURL(): return ""
             }
         }
         var url: URL {
@@ -61,10 +59,10 @@ class FlickrClient {
         }
         
         let url = Endpoints.photosSearch(latitude, longitude, count, pageNumber).url
-        var array_photo_URLs = [URL]()
-        var array_photoID_secret = [[String: String]]()
-        var array_URLString = [String]()
-        var array_URLString2 = [String]()
+        var arrayPhotoURLs = [URL]()
+        var arrayPhotoIdSecret = [[String: String]]()
+        var arrayUrlStrings = [String]()
+        var arrayFlickrUrlStrings = [String]()
         var count = 0
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
@@ -79,20 +77,20 @@ class FlickrClient {
                 if temp.photos.photo.isEmpty == false {
                     temp.photos.photo.forEach {
                         let tempDict = [$0.id : $0.secret]
-                        array_photoID_secret.append(tempDict)
+                        arrayPhotoIdSecret.append(tempDict)
                         
                         let photoURL = FlickrClient.Endpoints.getOnePicture($0.id, $0.secret)
                         let photoURLString = photoURL.toString
-                        array_URLString.append(photoURLString)
+                        arrayUrlStrings.append(photoURLString)
                         
                         getPhotoURL(photoID: $0.id, secret: $0.secret, completion: { (urlString, error) in
                             guard let urlString = urlString else {return}
-                            array_URLString2.append(urlString)
-                            array_photo_URLs.append(URL(string: urlString)!)
+                            arrayFlickrUrlStrings.append(urlString)
+                            arrayPhotoURLs.append(URL(string: urlString)!)
                             count = count + 1
                             if count == temp.photos.photo.count {
                                 DispatchQueue.main.async {
-                                    completion(currentPin, array_photo_URLs, nil)
+                                    completion(currentPin, arrayPhotoURLs, nil)
                                 }
                             }
                         })

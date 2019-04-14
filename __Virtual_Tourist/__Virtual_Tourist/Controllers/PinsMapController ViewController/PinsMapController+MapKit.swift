@@ -74,9 +74,9 @@ extension PinsMapController {
     }
     
     private func deleteAllPhotosOnPin(_ pinToChange: Pin) {
-        let fetch111 = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
-        fetch111.predicate = NSPredicate(format: "pin = %@", argumentArray: [pinToChange])
-        let request = NSBatchDeleteRequest(fetchRequest: fetch111)
+        let fetchPhotoController = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
+        fetchPhotoController.predicate = NSPredicate(format: "pin = %@", argumentArray: [pinToChange])
+        let request = NSBatchDeleteRequest(fetchRequest: fetchPhotoController)
         
         do {
             _ = try self.dataController.backGroundContext.execute(request)

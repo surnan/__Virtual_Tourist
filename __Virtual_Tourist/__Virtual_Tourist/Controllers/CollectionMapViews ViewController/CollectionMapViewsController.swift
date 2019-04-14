@@ -77,6 +77,10 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         }
     }
     
+    //Don't want to show failed network connection Alert on View Did Load
+    //An alertController is going to be presented from 'PinsMapController' network failure when pin dropped/moved
+    var suppressAlerts = true
+    
     //MARK:- Local Lazy Variables
     lazy var newLocationButton: UIButton = {
         let button = UIButton()

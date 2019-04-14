@@ -18,9 +18,7 @@ extension PinsMapController {
     
     @objc func handleDeleteAllButton(_ sender: UIButton){
         if mapView.annotations.isEmpty {
-            let myAlertController = UIAlertController(title: "Delete All Pins Cancelled", message: "No Pins on Map to Delete", preferredStyle: .alert)
-            myAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(myAlertController, animated: true)
+            showOKAlertController(title: "Delete All Pins Cancelled", message: "No Pins on Map to Delete")
         } else {
             let myAlertController = UIAlertController(title: "Confirmation Needed", message: "Please confirm deletion of all pins", preferredStyle: .alert)
             myAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: self.deleteThePins))
@@ -66,10 +64,7 @@ extension PinsMapController {
     
     func handleGetAllPhotoURLs(pin: Pin, urls: [URL], error: Error?){
         if let error = error {
-            let errorAlertController = UIAlertController(title: "Network Error", message: "Unable to download photos", preferredStyle: .alert)
-            errorAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(errorAlertController, animated: true)
-            
+            showOKAlertController(title: "Network Error", message: "Unable to download photos")
             print("error.localizedDescription --> \(error.localizedDescription)")
             print("...func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
             return
