@@ -65,6 +65,7 @@ class CollectionMapViewsController: UIViewController, UICollectionViewDataSource
         label.textColor = UIColor.lightGray
         label.textAlignment = .center
         label.isHidden = true
+        label.isUserInteractionEnabled = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
