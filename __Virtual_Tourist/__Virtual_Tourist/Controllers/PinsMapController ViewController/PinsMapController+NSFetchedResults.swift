@@ -26,6 +26,8 @@ extension PinsMapController {
         }
     }
     
+    
+    /*
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         //        print("WILL CHANGE")
     }
@@ -33,6 +35,7 @@ extension PinsMapController {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         //        print("DID CHANGE")
     }
+    */
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {

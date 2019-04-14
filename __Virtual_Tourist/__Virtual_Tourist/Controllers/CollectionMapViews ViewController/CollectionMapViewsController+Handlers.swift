@@ -109,45 +109,6 @@ extension CollectionMapViewsController {
         }
     }
     
-    
-//    func handleGetAllPhotoURLs(pin: Pin, urls: [URL], error: Error?){
-//        DispatchQueue.main.async {
-//            self.activityView.stopAnimating()
-//            if urls.isEmpty {
-//                self.emptyLabel.isHidden = false
-//            } else {
-//                self.emptyLabel.isHidden = true
-//            }
-//        }
-//        let backgroundContext: NSManagedObjectContext! = dataController.backGroundContext
-//        if let error = error {
-//            print("func mapView(_ mapView: MKMapView, didSelect... \n\(error)")
-//            showOKAlertController(title: "Network Error", message: "Unable to download photos")
-//
-//
-//            return
-//        }
-//        let pinId = pin.objectID
-//        backgroundContext.perform {
-//            let backgroundPin = backgroundContext.object(with: pinId) as! Pin
-//            backgroundPin.urlCount = Int32(urls.count)
-//            backgroundPin.isDownloading = false
-//
-//            do {
-//                try backgroundContext.save()
-//            } catch let saveErr {
-//                print("Error: Core Data Save Error within handleGetAllPhotoURLs(...)\nCode: \(saveErr.localizedDescription)")
-//                print("Full Error Details: \(saveErr)")
-//            }
-//        }
-//        for (index, currentURL) in urls.enumerated() {
-//            URLSession.shared.dataTask(with: currentURL, completionHandler: { (imageData, response, error) in
-//                guard let imageData = imageData else {return}
-//                connectPhotoAndPin(dataController: self.dataController, currentPin:  pin , data: imageData, urlString: currentURL.absoluteString, index: index)
-//            }).resume()
-//        }
-//    }
-    
     private func deleteAllPhotosOnPin(_ pinToChange: Pin) {
         let fetch111 = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
         fetch111.predicate = NSPredicate(format: "pin = %@", argumentArray: [pinToChange])

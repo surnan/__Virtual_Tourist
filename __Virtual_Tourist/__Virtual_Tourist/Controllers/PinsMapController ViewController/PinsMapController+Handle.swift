@@ -20,10 +20,7 @@ extension PinsMapController {
         if mapView.annotations.isEmpty {
             showOKAlertController(title: "Delete All Pins Cancelled", message: "No Pins on Map to Delete")
         } else {
-            let myAlertController = UIAlertController(title: "Confirmation Needed", message: "Please confirm deletion of all pins", preferredStyle: .alert)
-            myAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: self.deleteThePins))
-            myAlertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
-            present(myAlertController, animated: true)
+            showOKCancelAlertController(title: "Confirmation Needed", message: "Please confirm deletion of all pins", okFunction: self.deleteThePins)
         }
     }
     
