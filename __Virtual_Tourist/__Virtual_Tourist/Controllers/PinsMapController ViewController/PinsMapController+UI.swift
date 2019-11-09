@@ -55,6 +55,12 @@ extension PinsMapController {
                        completion: nil)
     }
     
+    
+//    var anchorMapTop_SafeAreaTop: NSLayoutConstraint?
+//    var anchorMapTop_ShiftMapToShowDeletionLabel: NSLayoutConstraint?
+//    var anchorMapBottom_ViewBottom: NSLayoutConstraint?
+//    var anchorMapBottom_ShiftMapToShowDeletionLabel: NSLayoutConstraint?
+    
     private func resetConstraintsOnBottomLabel(){
         anchorMapTop_SafeAreaTop?.isActive = false
         anchorMapTop_ShiftMapToShowDeletionLabel?.isActive = false
